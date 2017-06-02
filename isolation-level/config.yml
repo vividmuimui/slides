@@ -1,0 +1,6 @@
+theme: night
+revealjs_config:
+  slideNumber: true
+  history: true
+  controls: false
+title: isolation-level
