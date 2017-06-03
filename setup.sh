@@ -8,5 +8,6 @@ cd $_
 
 cp ../config.yml ./
 echo "title: ${name}" >> config.yml
+cp -r ../css ./
 
 touch slide.md
