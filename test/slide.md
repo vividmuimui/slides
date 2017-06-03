@@ -41,6 +41,15 @@ bar
 
 ---
 
+# table
+
+| foo      | bar        | baz      |
+| :------: | ------     | ------:   |
+| hoge     | huga       | piyo     |
+| hogeeee  | hugaaaaaaa | piyooooo |
+
+---
+
 # note
 
 ```note
