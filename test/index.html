@@ -24,6 +24,7 @@
 
 <link rel="stylesheet" href="css/reveal-ck.css">
 
+<link rel="stylesheet" href="css/custom.css">
 
 <!-- Printing and PDF exports -->
 <script>
@@ -48,14 +49,71 @@
 
 <h1>test</h1>
 
-<p>foo</p>
+<!-- {:style="text-align: left"} -->
+
+<p class="center">foo</p>
+
+<p class="center fragment"><a href="https://twitter.com/vivid_muimui">@vivid_muimui</a></p>
 
 </section>
 <section>
 
-<h1>test2</h1>
+<h1 class="left">test2</h1>
+
+<h4 class="left">test3</h4>
 
 <p>bar</p>
+
+</section>
+<section>
+<section>
+
+<h1>vertical1</h1>
+
+</section>
+<section>
+
+<h1>vertical2</h1>
+
+</section>
+</section>
+<section>
+
+<h1>list</h1>
+
+<ul>
+  <li>foo
+    <ul>
+      <li>foooooo</li>
+    </ul>
+  </li>
+  <li>bar
+    <ul>
+      <li>barrrrr</li>
+      <li>barrrrr</li>
+    </ul>
+  </li>
+  <li>baz
+    <ul>
+      <li>bazzzzz
+        <ul>
+          <li>bazzzzz</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h1>note</h1>
+
+<aside class="notes">
+
+<p>this is note</p>
+
+</aside>
 
 </section>
 
@@ -84,7 +142,7 @@
       { src: 'plugin/notes/notes.js', async: true }
     ]
   };
-  var configOptions = {"slideNumber":true,"history":true,"controls":false}
+  var configOptions = {"slideNumber":true,"history":true,"controls":true}
   var initializeOptions = {};
   extend(initializeOptions, baseOptions);
   extend(initializeOptions, configOptions);

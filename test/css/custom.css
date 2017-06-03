@@ -1,0 +1,25 @@
+/* h1, h2 {
+  text-align: center
+}*/
+
+.reveal .slides p {
+  text-align: left;
+}
+
+.reveal .slides ul {
+  display: block;
+  margin-left: 2em;
+}
+
+.reveal .slides ul li {
+  text-align: left;
+}
+
+.reveal .slides .left {
+  text-align: left;
+}
+
+.reveal .slides .center {
+  text-align: center;
+}
+
