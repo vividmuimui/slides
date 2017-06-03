@@ -15,6 +15,20 @@
   text-align: left;
 }
 
+.reveal .slides table th {
+  border-right: 1px solid;
+}
+.reveal .slides table td {
+  border-right: 1px solid;
+}
+
+.reveal .slides table td:last-child {
+  border-right: none;
+}
+.reveal .slides table th:last-child {
+  border-right: none;
+}
+
 .reveal .slides .left {
   text-align: left;
 }
@@ -22,4 +36,3 @@
 .reveal .slides .center {
   text-align: center;
 }
-
