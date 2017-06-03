@@ -2,4 +2,4 @@ theme: night
 revealjs_config:
   slideNumber: true
   history: true
-  controls: false
+  controls: true
