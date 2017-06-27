@@ -1,0 +1,8 @@
+theme: night
+slide-number: true
+history: true
+controls: true
+
+footnote : "this is test foot note"
+
+revealjs: 3.4.1
