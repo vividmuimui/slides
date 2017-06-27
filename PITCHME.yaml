@@ -2,6 +2,7 @@ theme: sky
 slide-number: true
 history: true
 controls: true
+remote-control: true
 
 footnote : "this is test foot note"
 
