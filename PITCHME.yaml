@@ -1,8 +1,11 @@
-theme: night
+theme: sky
 slide-number: true
 history: true
 controls: true
 
 footnote : "this is test foot note"
 
-revealjs: 3.5.0
+revealjs: "3.5.0"
+reveal.js: "3.5.0"
+reveal-js: "3.5.0"
+reveal_js: "3.5.0"
