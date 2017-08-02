@@ -1,6 +1,6 @@
-/* h1, h2 {
-  text-align: center
-}*/
+.reveal .slides h1, h2 {
+  text-align: left;
+}
 
 .reveal .slides p {
   text-align: left;
@@ -35,4 +35,8 @@
 
 .reveal .slides .center {
   text-align: center;
+}
+
+section {
+  font-size: 70% !important;
 }
