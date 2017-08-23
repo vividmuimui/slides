@@ -1385,7 +1385,8 @@ body {
 
 .zoomed .reveal .roll span:after {
   visibility: hidden; }
-.reveal .slides h1, h2 {
+
+.reveal .slides h1, h2, h3 {
   text-align: left;
 }
 
