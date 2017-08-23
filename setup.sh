@@ -16,7 +16,7 @@ cd $name
 
 cp ../config.yml ./
 cat << EOS >> config.yml
-title: authentication
+title: $name
 meta_properties:
   og:type: "website"
   og:title: $name
