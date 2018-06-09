@@ -1,3 +1,247 @@
 <section>
 
+<h1>sentryオススメ設定</h1>
+
+<p><a href="https://github.com/vividmuimui" class="user-mention">@vividmuimui</a><br>
+2018/02/06 社内LT資料</p>
+
+</section>
+<section>
+
+<h1>sentryとは</h1>
+
+<p>ざつにいうと、プログラムのエラーを通知したりその詳細を見れたりするサービス</p>
+
+<p><a href="https://docs.sentry.io/">https://docs.sentry.io/</a><br>
+Ruby, C#, JS, Go etc色々対応してます</p>
+
+</section>
+<section>
+
+<h1>はじめに</h1>
+
+<ul>
+  <li>Ruby/Rails中心に書きます
+    <ul>
+      <li>他の言語でもほぼ一緒だと思いますが違ったら良い感じに読み替えたり調べたりしてください</li>
+    </ul>
+  </li>
+  <li>まだ使いこなしたとはいえない状態で書いているので、現時点でのオススメ設定です</li>
+  <li>動かすための基本設定みたいなのは書かないです</li>
+</ul>
+
+</section>
+<section>
+
+<h1>ドキュメント系</h1>
+
+<ul>
+  <li>ドキュメント
+    <ul>
+      <li><a href="https://docs.sentry.io/">https://docs.sentry.io/</a></li>
+      <li><a href="https://docs.sentry.io/clients/ruby/">https://docs.sentry.io/clients/ruby/</a></li>
+      <li><a href="https://docs.sentry.io/clients/ruby/integrations/rails/">https://docs.sentry.io/clients/ruby/integrations/rails/</a></li>
+    </ul>
+  </li>
+  <li>設定画面一覧
+    <ul>
+      <li>account settings <a href="https://your-sentry.example.com/account/settings/">https://your-sentry.example.com/account/settings/</a></li>
+      <li>project settings <a href="https://your-sentry.example.com/sentry/sandbox/settings/">https://your-sentry.example.com/sentry/sandbox/settings/</a></li>
+      <li>organization settings <a href="https://your-sentry.example.com/organizations/sentry/settings/">https://your-sentry.example.com/organizations/sentry/settings/</a></li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h1>秘匿情報はきちんとfilterする</h1>
+
+<p>メールアドレスやパスワードなどがsentry上で表示されないようにするため。<br>
+<a href="https://docs.sentry.io/learn/sensitive-data/">https://docs.sentry.io/learn/sensitive-data/</a><br>
+<a href="https://docs.sentry.io/clients/ruby/config/#optional-settings">https://docs.sentry.io/clients/ruby/config/#optional-settings</a> のprocessorsの項目</p>
+
+<p>railsだと以下のようにすると良いとdocumentにある。</p>
+
+<pre><code class="language-ruby">config.sanitize_fields = Rails.application.config.filter_parameters.map(&amp;:to_s)
+</code></pre>
+
+<p>概ねこれで問題がないが、<br>
+railsだと filter_parametersに <code>email</code>を登録すれば<code>xxx_email</code>や<code>email_xxx</code>もfilterしてくれる。<br>
+sentryは <code>email</code>しかfilterしてくれないので注意。<br>
+sentryでもよしなにやってもらうためには<code>/email/</code>を登録する必要がある。</p>
+
+</section>
+<section>
+
+<h1>userのcontextを出す</h1>
+
+<p>誰がそのエラーを起こしたかをわかるようにするため。<br>
+<a href="https://docs.sentry.io/learn/context/#capturing-the-user">https://docs.sentry.io/learn/context/#capturing-the-user</a></p>
+
+<p>デフォルトではIPアドレスが取得されます。<br>
+設定する内容としては、</p>
+
+<ul>
+  <li>一般ユーザーの場合はそのユーザーを一意に識別できるIDなど
+    <ul>
+      <li><code>Raven.user_context(id: current_user.id) if current_user.present?</code></li>
+    </ul>
+  </li>
+  <li>管理ツール等で社内の人間がエラーを起こした場合は、IDよりは名前やメールアドレスを設定したほうが解決が圧倒的にスムーズで良い
+    <ul>
+      <li>sanitizefieldにemailを追加している場合、user contextにemailを設定したときもfilterされてしまうので注意. <code>username</code>フィールドに入れる必要がある</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h1>tags contextを活用する</h1>
+
+<p><a href="https://docs.sentry.io/learn/context/#tagging-events">https://docs.sentry.io/learn/context/#tagging-events</a></p>
+
+<p>タグはこんな感じでそのエラーがどういう環境で起きたかとかを見れる。</p>
+<blockquote>
+  <p><img src="https://user-images.githubusercontent.com/1803598/41194664-40a3de00-6c5a-11e8-9732-e0b93d273926.png" alt=""></p>
+</blockquote>
+
+</section>
+<section>
+
+<h1>tags contextを活用する</h1>
+
+<p>そのエラーでどういう端末・サーバーで起きているのかを割合でみれる</p>
+<blockquote>
+  <p><img src="https://user-images.githubusercontent.com/1803598/41194635-b35bdea8-6c59-11e8-9681-9f97803b599f.png" alt="image"></p>
+</blockquote>
+
+</section>
+<section>
+
+<h1>tags contextを活用する</h1>
+
+<p>そのタグで起きているエラーを絞込できる</p>
+<blockquote>
+  <p><img src="https://user-images.githubusercontent.com/1803598/41194699-ce6c880e-6c5a-11e8-8cd8-6595cba1f07f.png" alt="image"></p>
+</blockquote>
+
+</section>
+<section>
+
+<h1>extra contextを活用する</h1>
+
+<p>そのエラーが起きた時に追加したい詳細な情報をなんでも詰め込める場所。<br>
+<a href="https://docs.sentry.io/learn/context/#extra-context">https://docs.sentry.io/learn/context/#extra-context</a></p>
+
+<ul>
+  <li>request_id, paramsあたりを出しておくと良さ
+    <ul>
+      <li><code>Raven.extra_context(params: params.to_unsafe_h, url: request.url, request_id: request.request_id)</code></li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h1>contextの種類の補足 <img class="emoji" alt=":bulb:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f4a1.png">
+</h1>
+
+<p><a href="https://docs.sentry.io/learn/context/">https://docs.sentry.io/learn/context/</a><br>
+tags, user, extraの3種類ある。</p>
+
+<ul>
+  <li>tagsは、tagsでfilterしたりできる</li>
+  <li>extraは、そのエラーに表示されるだけ。filterできたりしない。
+    <ul>
+      <li>リクエストparamsだしたり、http header出したりするのが良さそう</li>
+    </ul>
+  </li>
+  <li>user はtagsとextra両方の扱いになる</li>
+</ul>
+
+<p>という認識。</p>
+
+</section>
+<section>
+
+<h1>通知ルールのカスタマイズ</h1>
+
+<p><a href="https://your-sentry.example.com/sentry/your-project/settings/alerts/rules/">https://your-sentry.example.com/sentry/your-project/settings/alerts/rules/</a></p>
+
+<ul>
+  <li>デフォルトでは初めてそのエラーが発生した時に通知がされるだけ</li>
+  <li>通知ruleは複数設定できる</li>
+  <li>「指定時間内に指定回数起きたら」や「特定のタグがついていたら」などの条件が設定できる</li>
+  <li>また、１つのruleの中に条件を複数書くことが出来る</li>
+</ul>
+
+<blockquote>
+  <p><img src="https://user-images.githubusercontent.com/1803598/41194716-160282b8-6c5b-11e8-900c-b7b8aa62b5f4.png" alt="image"></p>
+</blockquote>
+
+<p>既知のエラーでも1日1回は通知するようにルールを設定する場合はこんな漢字。</p>
+
+</section>
+<section>
+
+<h1>通知内容のカスタマイズ</h1>
+
+<p><a href="https://your-sentry.example.com/sentry/your-project/settings/alerts/">https://your-sentry.example.com/sentry/your-project/settings/alerts/</a></p>
+
+<p>通知のintegration(slackなど)が設定されていると以下のような設定項目が出てくる</p>
+<blockquote>
+  <p><img src="https://user-images.githubusercontent.com/1803598/41194739-68e68cc2-6c5b-11e8-8cba-55aab0ab3f1e.png" alt="image"></p>
+</blockquote>
+
+<ul>
+  <li>include tagsは設定すべき</li>
+  <li>incude rule は通知ruleが複数ある場合は設定したほうが良い</li>
+  <li>ほかはよしなに。</li>
+</ul>
+
+</section>
+<section>
+
+<h1>auto resolveする</h1>
+
+<p>該当エラーが一定期間発生しなければresolve、という設定ができる。<br>
+<a href="https://your-sentry.example.com/sentry/your-project/settings/">https://your-sentry.example.com/sentry/your-project/settings/</a></p>
+
+<p>古いエラーを溜め込んでしまっても割れ窓っぽくなってしまうので、<br>
+勇気を持って見て見ぬふりしていくのも大事そう(プロジェクトやチームの都合によりけり)</p>
+
+</section>
+<section>
+
+<h1>releaseを設定する</h1>
+
+<p>該当エラーがどのリリースで発生したのかを特定できるようにするため。<br>
+<a href="https://docs.sentry.io/learn/releases/">https://docs.sentry.io/learn/releases/</a><br>
+<a href="https://docs.sentry.io/clients/ruby/config/">https://docs.sentry.io/clients/ruby/config/</a> のreleaseの項目</p>
+
+<ul>
+  <li>githubリポジトリだったらそのSHA</li>
+  <li>リポジトリルートにREVISIONファイルがあればその中身を見る
+    <ul>
+      <li>=&gt; capistranoでデプロイしてれば勝手に読んでくれる</li>
+    </ul>
+  </li>
+  <li><code>config.release = "xxx"</code></li>
+  <li>apiを叩く</li>
+</ul>
+
+<p>などで設定できる。<br>
+そのリリースでどういうエラーが起きたのか、次回リリースのタイミングでresolve、githubとの連携がうまく行ってればそのコミットのautherやgithubのページへのリンクなどいいこといっぱい</p>
+
+</section>
+<section>
+
+<h1>bashのエラーを検知する</h1>
+
+<p><a href="https://docs.sentry.io/learn/cli/send-event/#bash-hook">https://docs.sentry.io/learn/cli/send-event/#bash-hook</a><br>
+出来るらしい</p>
+
 </section>
