@@ -15,6 +15,7 @@ fi
 cd $name
 
 cp ../config.yml ./
+cp -r ../css ./
 cat << EOS >> config.yml
 title: $name
 meta_properties:
