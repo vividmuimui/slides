@@ -1,0 +1,43 @@
+.reveal .slides h1, h2 {
+  text-align: left;
+  font-size: 200%;
+}
+
+.reveal .slides p {
+  text-align: left;
+}
+
+.reveal .slides ul {
+  display: block;
+  margin-left: 2em;
+}
+
+.reveal .slides ul li {
+  text-align: left;
+}
+
+.reveal .slides table th {
+  border-right: 1px solid;
+}
+.reveal .slides table td {
+  border-right: 1px solid;
+}
+
+.reveal .slides table td:last-child {
+  border-right: none;
+}
+.reveal .slides table th:last-child {
+  border-right: none;
+}
+
+.reveal .slides .left {
+  text-align: left;
+}
+
+.reveal .slides .center {
+  text-align: center;
+}
+
+p, ul {
+  font-size: 70% !important;
+}
