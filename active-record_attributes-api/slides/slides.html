@@ -1,3 +1,264 @@
 <section>
 
+<h1>Rails の Active Record attributes API が便利</h1>
+
+<p><a href="https://github.com/vividmuimui" class="user-mention">@vividmuimui</a><br>
+社内勉強会資料 LT資料 2017/11/03</p>
+
+</section>
+<section>
+
+<h1>注意</h1>
+
+<p>この資料は2017/11/03時点のもので、Rails5.2が出る前のものです。<br>
+資料内でGemを導入していますが、Rails5.2では必要なくなっています。</p>
+
+</section>
+<section>
+
+<h1>Active Record attributes API とは</h1>
+
+<p>rails5で入った機能</p>
+<ul>
+  <li>release note: <a href="http://guides.rubyonrails.org/5_0_release_notes.html#active-record-attributes-api">http://guides.rubyonrails.org/5_0_release_notes.html#active-record-attributes-api</a></li>
+  <li>api document: <a href="http://api.rubyonrails.org/classes/ActiveRecord/Attributes/ClassMethods.html">http://api.rubyonrails.org/classes/ActiveRecord/Attributes/ClassMethods.html</a></li>
+</ul>
+
+</section>
+<section>
+
+<p>分かりやすかった記事</p>
+<ul>
+  <li><a href="http://y-yagi.tumblr.com/post/140725723370/rails-5%E3%81%AEactive-record-attributes-api%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">http://y-yagi.tumblr.com/post/140725723370/rails-5%E3%81%AEactive-record-attributes-api%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6</a></li>
+  <li><a href="https://www.wantedly.com/companies/wantedly/post_articles/31132">https://www.wantedly.com/companies/wantedly/post_articles/31132</a></li>
+</ul>
+
+<p>実装する時に確実に見るやつ</p>
+<ul>
+  <li><a href="http://api.rubyonrails.org/classes/ActiveModel/Type/Value.html">http://api.rubyonrails.org/classes/ActiveModel/Type/Value.html</a></li>
+</ul>
+
+</section>
+<section>
+
+<h1>使い方・どんなやつか</h1>
+
+<p>実際実装したのを例にします。</p>
+
+</section>
+<section>
+
+<h1>
+<img class="emoji" alt=":one:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0031-20e3.png"> typeクラスを定義する</h1>
+
+<pre><code class="language-ruby">class EmailType &lt; ActiveModel::Type::String
+  # DBに入れる・検索する時にどう変換するか
+  def serialize(value)
+    normalize(super)
+  end
+
+  # DBから取り出す時にどう変換するか
+  # def deserialize(value); end
+
+  private
+
+  # setterでどう変換するか
+  def cast_value(value)
+    normalize(super)
+  end
+
+  def normalize(value)
+    return unless value
+    value.downcase.remove(/\A[[:^graph:]]*/).remove(/[[:^graph:]]*\z/)
+  end
+end
+</code></pre>
+
+</section>
+<section>
+
+<h1>
+<img class="emoji" alt=":two:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0032-20e3.png"> 登録する</h1>
+
+<pre><code class="language-ruby">ActiveRecord::Type.register(:email, EmailType)
+</code></pre>
+
+</section>
+<section>
+
+<h1>
+<img class="emoji" alt=":three:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0033-20e3.png"> modelで使うよう宣言する</h1>
+
+<pre><code class="language-ruby">class User &lt; ApplicationRecord
+  # attribute :field, :type
+  attribute :email, :email
+end
+</code></pre>
+
+<p>設定終わり</p>
+
+</section>
+<section>
+
+<h1>
+<img class="emoji" alt=":four:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0034-20e3.png"> 使う</h1>
+
+<p>検索する時にserializeされて検索される</p>
+
+<pre><code class="language-ruby">(main)&gt; User.find_by(email: " SAMPLE@EXAMPLE.COM ")
+  User Load (0.4ms)  SELECT  `users`.* FROM `users` WHERE `users`.`email` = 'sample@example.com' LIMIT 1
+</code></pre>
+
+<p>保存するときもserializeされる</p>
+
+<pre><code class="language-ruby">(main)&gt; FactoryBot.create(:user, email: " SAMPLE@EXAMPLE.COM ").email
+   (0.4ms)  BEGIN
+  SQL (0.3ms)  INSERT INTO `users` (`uid`, `identifier`, `email`, `password_digest`, `activated`, `activated_at`, `created_at`, `updated_at`) VALUES ('ViyL8xm9nhe4z4jZVRTwlg', '1ef4', 'sample@example.com', '$2a$10$0OEucfnPTeE74NCZ9nz25uoCXyQInJEMVSlBVB657U8QG0NsLKvde', 1, '2017-11-03 13:58:43', '2017-11-03 13:58:43', '2017-11-03 13:58:43')
+   (8.5ms)  COMMIT
+=&gt; "sample@example.com"
+</code></pre>
+
+</section>
+<section>
+
+<p>setter等では, cast_value(#cast)が呼ばれる</p>
+
+<pre><code class="language-ruby">User.new(email: " SAMPLE@EXAMPLE.COM ").email
+=&gt; "sample@example.com"
+
+(main)&gt; a = User.new
+=&gt; #&lt;User:0x00007fec9402c118 ....
+(main)&gt; a.email = " SAMPLE@EXAMPLE.COM "
+=&gt; " SAMPLE@EXAMPLE.COM "
+(main)&gt; a.email
+=&gt; "sample@example.com"
+</code></pre>
+
+</section>
+<section>
+
+<h1>便利! <img class="emoji" alt=":tada:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png">
+</h1>
+
+</section>
+<section>
+
+<h1>問題</h1>
+
+<p>現状のrailsでは ActiveRecord でしか使えず、ActiveModelなobjectでは使えない<br>
+つい最近、ActiveModelでも動くように実装され始めているようだが、現時点では使えない<br>
+<a href="https://github.com/rails/rails/pull/30920">https://github.com/rails/rails/pull/30920</a></p>
+
+</section>
+<section>
+
+<h1>ActiveModelでも使う</h1>
+
+<p>ここらへん読んで理解しつつつ<a href="https://github.com/Azdaroth/active_model_attributes">active_model_attributes</a> gemを入れる<br>
+<a href="https://github.com/rails/rails/pull/26728">https://github.com/rails/rails/pull/26728</a><br>
+<a href="https://karolgalanciak.com/blog/2016/12/04/introduction-to-activerecord-and-activemodel-attributes-api/">https://karolgalanciak.com/blog/2016/12/04/introduction-to-activerecord-and-activemodel-attributes-api/</a></p>
+
+<ul>
+  <li>近い将来、rails本体で ActiveModel で attributes apiが使えるようになるのでそのじゃまにならない方が良い</li>
+  <li>PRにあるように、このgemで全部正しく動くわけではないので小さなモデルでしか使わないほうが良さそう</li>
+</ul>
+
+</section>
+<section>
+
+<h1>使い方</h1>
+
+</section>
+<section>
+
+<h1>
+<img class="emoji" alt=":one:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0031-20e3.png"> gemを入れる</h1>
+
+<p><code>gem "active_model_attributes"</code></p>
+
+</section>
+<section>
+
+<h1>
+<img class="emoji" alt=":two:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0032-20e3.png"> typeクラスを定義する</h1>
+
+<pre><code class="language-ruby">class EmailType &lt; ActiveModel::Type::String
+  # DBに入れる・検索する時にどう変換するか
+  def serialize(value)
+    normalize(super)
+  end
+
+  # DBから取り出す時にどう変換するか
+  # def deserialize(value); end
+
+  private
+
+  # setterでどう変換するか
+  def cast_value(value)
+    normalize(super)
+  end
+
+  def normalize(value)
+    return unless value
+    value.downcase.remove(/\A[[:^graph:]]*/).remove(/[[:^graph:]]*\z/)
+  end
+end
+</code></pre>
+
+</section>
+<section>
+
+<h1>
+<img class="emoji" alt=":three:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0033-20e3.png"> 登録する</h1>
+
+<pre><code class="language-ruby">ActiveModel::Type.register(:email, EmailType) # ActiveRecordではなくActiveModel
+</code></pre>
+
+</section>
+<section>
+
+<h1>
+<img class="emoji" alt=":four:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0034-20e3.png"> modelで使うよう宣言する</h1>
+
+<pre><code class="language-ruby">class SomeModel
+  include ActiveModel::Model
+  include ActiveModelAttributes
+
+  attribute :email, :email
+end
+</code></pre>
+
+<p>設定終わり</p>
+
+</section>
+<section>
+
+<h1>
+<img class="emoji" alt=":five:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0035-20e3.png"> 使う</h1>
+
+<pre><code class="language-ruby">(main)&gt; SomeModel.new(email: " SAMPLE@EXAMPLE.COM ").email
+=&gt; "sample@example.com"
+(main)&gt; a = SomeModel.new
+=&gt; #&lt;SomeModel:0x00007fec933324f8&gt;
+(main)&gt; a.email = " SAMPLE@EXAMPLE.COM "
+=&gt; " SAMPLE@EXAMPLE.COM "
+(main)&gt; a.email
+=&gt; "sample@example.com"
+</code></pre>
+
+</section>
+<section>
+
+<h1>便利! <img class="emoji" alt=":tada:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png">
+</h1>
+
+</section>
+<section>
+
+<h1>おわり</h1>
+
+<p>before_validationでゴニョゴニョしてるときとか、<br>
+今回のような、ユーザの入力をnormalizeしたいときとかにはだいぶ有用そうだった<br>
+だいぶ便利なので、ほかにも使いみちは色々ありそう</p>
+
 </section>
