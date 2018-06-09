@@ -103,7 +103,7 @@ https://docs.sentry.io/learn/context/#extra-context
 
 ---
 
-# contextの種類の補足 :bulb:
+# contextの種類の補足
 
 https://docs.sentry.io/learn/context/
 tags, user, extraの3種類ある。

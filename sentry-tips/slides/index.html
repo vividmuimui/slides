@@ -7,7 +7,7 @@
 
 <meta name="description" content="">
 <meta name="author" content="">
-<meta name="generator" content="reveal-ck 3.6.0">
+<meta name="generator" content="reveal-ck 3.8.0">
 
 <meta property="og:type" content="website" />
 <meta property="og:title" content="sentry-tips" />
@@ -33,6 +33,7 @@
 
 <link rel="stylesheet" href="css/reveal-ck.css">
 
+<link rel="stylesheet" href="css/custom.css">
 
 <!-- Printing and PDF exports -->
 <script>
@@ -201,8 +202,7 @@ sentryでもよしなにやってもらうためには<code>/email/</code>を登
 </section>
 <section>
 
-<h1>contextの種類の補足 <img class="emoji" alt=":bulb:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f4a1.png">
-</h1>
+<h1>contextの種類の補足</h1>
 
 <p><a href="https://docs.sentry.io/learn/context/">https://docs.sentry.io/learn/context/</a><br>
 tags, user, extraの3種類ある。</p>
@@ -307,6 +307,7 @@ tags, user, extraの3種類ある。</p>
 <script src="lib/js/head.min.js"></script>
 <script src="js/reveal.js"></script>
 
+
 <script>
   (function() {
   function extend( a, b ) {
@@ -326,6 +327,9 @@ tags, user, extraの3種類ある。</p>
       { src: 'plugin/notes/notes.js', async: true }
     ]
   };
+
+  
+
   var configOptions = {"slideNumber":true,"history":true,"controls":true}
   var initializeOptions = {};
   extend(initializeOptions, baseOptions);
