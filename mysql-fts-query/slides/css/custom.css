@@ -38,6 +38,6 @@
   text-align: center;
 }
 
-p, ul {
+p, ul, table {
   font-size: 70% !important;
 }

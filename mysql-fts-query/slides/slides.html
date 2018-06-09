@@ -1,3 +1,422 @@
 <section>
 
+<h1>mysqlでの全文検索での検索の仕方</h1>
+
+<p><a href="https://github.com/vividmuimui" class="user-mention">@vividmuimui</a><br>
+2018/06/06 社内LT資料</p>
+
+</section>
+<section>
+
+<h1>はじめに</h1>
+
+<p>話すこと</p>
+<ul>
+  <li>クエリ周りの話</li>
+</ul>
+
+<p>話さないこと</p>
+<ul>
+  <li>他の全文検索システムとの違いとか</li>
+  <li>mysqlでの全文検索の組み込み方</li>
+  <li>text perserの話
+    <ul>
+      <li>ngram, mecab</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h1>例で使うテーブル</h1>
+
+<pre><code class="language-sql">SELECT body, title FROM posts;
+</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>body</th>
+      <th>title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>美味しいお肉とお魚が食べたい</td>
+      <td>肉と魚</td>
+    </tr>
+    <tr>
+      <td>美味しいお肉が食べたい。例えば松阪牛</td>
+      <td>肉</td>
+    </tr>
+    <tr>
+      <td>美味しいお魚が食べたい。例えばサバ味噌</td>
+      <td>お魚</td>
+    </tr>
+    <tr>
+      <td>ああああああああああ</td>
+      <td>全く関係ない記事</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Null</th>
+      <th>Key</th>
+      <th>Default</th>
+      <th>Extra</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>title</td>
+      <td>varchar(255)</td>
+      <td>NO</td>
+      <td>MUL</td>
+      <td>NULL</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>body</td>
+      <td>text</td>
+      <td>NO</td>
+      <td> </td>
+      <td>NULL</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>body, titleで全文検索用のindexが貼ってある</p>
+
+<pre><code class="language-sql">FULLTEXT KEY `index_posts_on_title_and_body` (`title`,`body`)
+  COMMENT '日本語全文検索インデックス(ngram)' /*!50100 WITH PARSER `ngram` */ ,
+</code></pre>
+
+</section>
+<section>
+
+<h1>クエリの基本</h1>
+
+<pre><code class="language-sql">SELECT *
+FROM `posts`
+WHERE MATCH (`posts`.title, `posts`.body)
+  AGAINST ('+お肉 +お魚' IN BOOLEAN MODE);
+</code></pre>
+
+<pre><code>MATCH (col1,col2,...) AGAINST (expr [search_modifier])
+</code></pre>
+
+<ul>
+  <li>
+<code>(col1,col2,...)</code> 検索対象のカラム。複数設定可</li>
+  <li>
+<code>expr</code> 検索する文字列</li>
+  <li>
+<code>search_modifier</code> 検索のモードの設定</li>
+</ul>
+
+</section>
+<section>
+
+<h1>search_modifier の種類</h1>
+
+<p>3種類ある</p>
+
+<ul>
+  <li>自然言語検索 <code>IN NATURAL LANGUAGE MODE</code>
+    <ul>
+      <li>デフォルトの修飾子</li>
+    </ul>
+  </li>
+  <li>Bool検索 <code>IN BOOLEAN MODE</code>
+</li>
+  <li>クエリ拡張での検索 <code>WITH QUERY EXPANSION</code> or <code>IN NATURAL LANGUAGE MODE WITH QUERY EXPANSION</code>
+</li>
+</ul>
+
+</section>
+<section>
+
+<h1>
+<img class="emoji" alt=":one:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0031-20e3.png"> 自然言語検索</h1>
+
+<p><code>IN NATURAL LANGUAGE MODE</code></p>
+
+<p>検索文字列がそのまま検索される(この表現はだいぶ怪しい・・・)<br>
+検索対象のカラムのテキストと類似度が評価される。<br>
+類似度が高い順にソートされ返される。</p>
+
+</section>
+<section>
+
+<pre><code class="language-sql">SELECT body FROM `posts`
+WHERE MATCH (`posts`.title,`posts`.body)
+  AGAINST ('松阪牛を焼いた美味しいお肉が食べたい' IN NATURAL LANGUAGE MODE);
+</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>body</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>美味しいお肉が食べたい。例えば松阪牛</td>
+    </tr>
+    <tr>
+      <td>美味しいお肉とお魚が食べたい</td>
+    </tr>
+    <tr>
+      <td>美味しいお魚が食べたい。例えばサバ味噌</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>
+<code>松阪牛を焼いた美味しいお肉が食べたい</code>という文字列自体はどれもいないが、類似度で検索結果が決まるので、3件返ってくる</li>
+  <li>
+<code>ああああああああああ</code>は結果に入っていない</li>
+</ul>
+
+</section>
+<section>
+
+<h1>類似度の確認</h1>
+
+<pre><code class="language-sql">SELECT
+  body,
+  MATCH (`posts`.title,`posts`.body)
+    AGAINST ('松阪牛を焼いた美味しいお肉が食べたい' IN NATURAL LANGUAGE MODE)
+    AS score
+FROM `posts`
+ORDER BY score DESC;
+</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>body</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>美味しいお肉が食べたい。例えば松阪牛</td>
+      <td>1.30292546749115</td>
+    </tr>
+    <tr>
+      <td>美味しいお肉とお魚が食べたい</td>
+      <td>0.21549654006958008</td>
+    </tr>
+    <tr>
+      <td>美味しいお魚が食べたい。例えばサバ味噌</td>
+      <td>0.12487750500440598</td>
+    </tr>
+    <tr>
+      <td>ああああああああああ</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+</section>
+<section>
+
+<h1>自然言語検索の感想</h1>
+
+<p>こういう検索方法だとわかっていると<br>
+とりあえぞそれっぽい単語をいっぱい並べれば目的の検索結果をより引き当てやすくなる</p>
+
+<p>ヘルプやFAQ系の検索とかも有用かも？</p>
+
+</section>
+<section>
+
+<h1>
+<img class="emoji" alt=":two:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0032-20e3.png"> Bool検索</h1>
+
+<p><code>IN BOOLEAN MODE</code></p>
+
+<p>googleとかtwitterとかのいわゆる普通の検索のモード</p>
+
+<ul>
+  <li>
+<code>+</code>でAND, <code>-</code>でNOTなどの演算子をサポートしている</li>
+  <li>
+<code>'+お肉 +お魚'</code>というように、検索したい文字列の前に演算子をつけて検索する</li>
+  <li>
+<code>'お肉 お魚'</code>のように演算子がない場合は、<code>お肉</code>または<code>お魚</code>が入っている文章、というようにORでの検索になる</li>
+  <li>自然言語検索 <code>IN NATURAL LANGUAGE MODE</code>とは違ってソートは勝手にはされない</li>
+</ul>
+
+</section>
+<section>
+
+<pre><code class="language-sql">SELECT body FROM `posts`
+WHERE MATCH (`posts`.title, `posts`.body)
+  AGAINST ('+お肉 +お魚' IN BOOLEAN MODE);
+</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>body</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>美味しいお肉とお魚が食べたい</td>
+    </tr>
+  </tbody>
+</table>
+
+</section>
+<section>
+
+<h1>演算子の種類</h1>
+
+<ul>
+  <li>
+<code>+</code> 存在しなければならない</li>
+  <li>
+<code>-</code> 含まれない</li>
+  <li>
+<code>演算子なし</code> OR</li>
+  <li>
+<code>@distance</code>
+    <ul>
+      <li><code>'"word1 word2 word3" @8'</code></li>
+      <li>
+<code>@distance</code>演算子前の<code>"</code>で囲まれた文字列が指定された距離内にいることを指定できる</li>
+    </ul>
+  </li>
+  <li>
+<code>&gt;</code> <code>&lt;</code>
+    <ul>
+      <li>貢献度を変更する
+        <ul>
+          <li>類似度と同様に一定以下だと検索結果として返さなくなる(???)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<code>( )</code> グループ化</li>
+  <li>
+<code>~</code>
+    <ul>
+      <li>貢献度をマイナスにする</li>
+      <li>
+<code>-</code>よりはソフト</li>
+    </ul>
+  </li>
+  <li>
+<code>*</code>
+    <ul>
+      <li>難しい…</li>
+    </ul>
+  </li>
+  <li>
+<code>"</code>
+    <ul>
+      <li>入力されたそのままのフレーズを含む行にのみ一致</li>
+      <li><code>'"some words"'</code></li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h1>Bool検索の感想</h1>
+
+<p>演算子を使いこなせば以下のような、いわゆる高度な検索は作ることができそう</p>
+
+<blockquote>
+  <p><img src="images/custom-search.png"></p>
+</blockquote>
+
+</section>
+<section>
+
+<h1>
+<img class="emoji" alt=":three:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0033-20e3.png"> クエリ拡張での検索</h1>
+
+<p><code>WITH QUERY EXPANSION</code> or <code>IN NATURAL LANGUAGE MODE WITH QUERY</code></p>
+
+<p><code>databases</code>と検索したときに<code>Mysql</code> <code>Oracle</code> <code>RDBMS</code>などが結果として返ってきてほしいケースに使う</p>
+
+</section>
+<section>
+
+<pre><code class="language-sql">SELECT body FROM `posts`
+WHERE MATCH (`posts`.title, `posts`.body)
+  AGAINST ('お肉' WITH QUERY EXPANSION);
+</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>body</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>美味しいお肉が食べたい。例えば松阪牛</td>
+    </tr>
+    <tr>
+      <td>美味しいお魚が食べたい。例えばサバ味噌</td>
+    </tr>
+    <tr>
+      <td>美味しいお肉とお魚が食べたい</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><code>お肉</code>で検索したが、<code>お肉</code>という文字列が含まれてないものも検索結果に出てくる</p>
+
+</section>
+<section>
+
+<h1>スーパーざっくりとした仕組み</h1>
+
+<p>内部では2回検索が行われる<br>
+検索キーワードが <code>databases</code>のとき</p>
+<ul>
+  <li>1回目は<code>databases</code>で検索</li>
+  <li>1回目の検索で関連度の高い検索結果の文字列をもとに新しい検索文字列を作成する</li>
+  <li>新しい検索文字列で検索をし検索結果を返す</li>
+</ul>
+
+</section>
+<section>
+
+<h1>クエリ拡張での検索の感想</h1>
+
+<blockquote>
+  <p>関連性のないドキュメントが返されるとノイズが大幅に増加する傾向があるため、検索フレーズが短すぎる場合にのみ使用してください</p>
+</blockquote>
+
+<p>ドキュメントに上記のように書いてあるように使い所は難しそう。<br>
+google検索とかの <code>もしかして 〇〇?</code>みたいな機能ができるかも・・？</p>
+
+</section>
+<section>
+
+<h1>今回省略した話</h1>
+
+<ul>
+  <li>大文字小文字は区別して検索される？</li>
+  <li>ストップワード</li>
+  <li>類似度・貢献度の計算方法、閾値</li>
+</ul>
+
 </section>
