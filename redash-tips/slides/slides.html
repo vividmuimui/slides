@@ -1,0 +1,132 @@
+<section>
+
+<h1>Redash(少しだけ)使いこなすためのTIPS</h1>
+
+<p><a href="https://github.com/vividmuimui" class="user-mention">@vividmuimui</a><br>
+2018/05/22 社内LT資料</p>
+
+</section>
+<section>
+
+<h1>chartの種類</h1>
+
+<p><a href="https://redash.io/help/user-guide/visualizations/visualization-types">https://redash.io/help/user-guide/visualizations/visualization-types</a><br>
+弱者なので使いこなせてないですけど、色々ある！<br>
+他のツールと比べて十分あるかはわからないです!</p>
+
+</section>
+<section>
+
+<h1>色んなdata source</h1>
+
+<p><a href="https://redash.io/integrations/">https://redash.io/integrations/</a></p>
+<ul>
+  <li>Mysql</li>
+  <li>Amazon Aurora</li>
+  <li>Athena</li>
+  <li>Bigquery</li>
+  <li>Elasticsearch</li>
+  <li>SpreadSheet</li>
+  <li>Google Analytics</li>
+</ul>
+
+<p>etc</p>
+
+</section>
+<section>
+
+<h1>既存のクエリもData sourceにできる！</h1>
+
+<p><a href="https://redash.io/help/user-guide/querying/query-results-data-source">https://redash.io/help/user-guide/querying/query-results-data-source</a></p>
+
+<p>既存のクエリをdata sourceとしてクエリを発行できる<br>
+複雑なクエリ1つ書ければ要らないかもしれないが、<br>
+小さいクエリ複数をdata sourceとしたほうが簡単なケースも有る</p>
+
+</section>
+<section>
+
+<h1>concat使えばURLとか画像とか</h1>
+
+<pre><code class="language-sql">SELECT
+  url,
+  concat('&lt;a href="', url, '" target="_blank"&gt;', name, '&lt;/a&gt;') AS url1,
+  concat('&lt;img src="', url, '" width="50" height="50"&gt;') AS img
+FROM avatar_icons
+</code></pre>
+
+</section>
+<section>
+
+<h1>変数を外から与える</h1>
+
+<p><a href="https://redash.io/help/user-guide/querying/query-parameters">https://redash.io/help/user-guide/querying/query-parameters</a></p>
+
+<p><img src="images/query-variable.png"></p>
+
+<pre><code class="language-sql">SELECT *
+FROM characters
+WHERE characters.created_at &gt;= "{{created_at}}"
+  AND characters.world = {{world_number}}
+</code></pre>
+
+<p>というように <code>{{名前}}</code>で書いてあげると自動的にredashが判断してくれる</p>
+
+</section>
+<section>
+
+<p>入力するtypeは、 numberとかdatetimeとかから選択する</p>
+
+<p><img src="images/query-variable2.png"></p>
+
+</section>
+<section>
+
+<h1>dashboardはシェアできる</h1>
+
+<p><a href="https://redash.io/help/user-guide/dashboards/sharing-dashboards">https://redash.io/help/user-guide/dashboards/sharing-dashboards</a></p>
+
+<p>dashboardはシェア用のリンクを発行でき、redashのアカウントを持ってない人でも閲覧できる</p>
+
+</section>
+<section>
+
+<h1>publish, unpublish</h1>
+
+<p><a href="https://redash.io/help/user-guide/querying/writing-queries#publishunpublish">https://redash.io/help/user-guide/querying/writing-queries#publishunpublish</a></p>
+
+<p>クエリをsaveした直後は <code>unpublish</code>(下書き状態)になっていて、他のユーザーからは見れない<br>
+publishすることで他のユーザーから見えるようになる。クエリ一覧にも表示されるようになる</p>
+
+</section>
+<section>
+
+<h1>refresh shedule</h1>
+
+<p><a href="https://redash.io/help/user-guide/querying/scheduling-a-query">https://redash.io/help/user-guide/querying/scheduling-a-query</a></p>
+
+<p>クエリの定期実行ができる<br>
+結果をキャッシュしてくれるので、結果のページがさくっと開ける</p>
+
+</section>
+<section>
+
+<h1>書いてない話</h1>
+
+<ul>
+  <li>redashの結果を外部に公開
+    <ul>
+      <li>api, embed, slack bot etc</li>
+    </ul>
+  </li>
+  <li>alerts</li>
+  <li>dashboardのtext boxesを使った入力フォーム
+    <ul>
+      <li><a href="https://blue1st-tech.hateblo.jp/entry/2016/09/04/224200">https://blue1st-tech.hateblo.jp/entry/2016/09/04/224200</a></li>
+      <li>環境変数の設定が必要</li>
+    </ul>
+  </li>
+  <li>etc</li>
+</ul>
+
+</section>
