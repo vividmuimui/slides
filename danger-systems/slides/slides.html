@@ -1,3 +1,208 @@
 <section>
 
+<h1>Danger</h1>
+
+<p><a href="https://github.com/vividmuimui" class="user-mention">@vividmuimui</a><br>
+2018/09/05 社内LT</p>
+
+</section>
+<section>
+
+<p><img src="images/danger-logo.png"></p>
+
+<p><a href="https://danger.systems/ruby/">https://danger.systems/ruby/</a></p>
+
+</section>
+<section>
+
+<h2>Danger とは</h2>
+
+<p><a href="https://github.com/vividmuimui/danger-sample/pull/7">https://github.com/vividmuimui/danger-sample/pull/7</a><br>
+<img src="images/danger-sample.png" width="640" height="640"></p>
+
+</section>
+<section>
+
+<h2>Danger とは</h2>
+
+<p>レビューbot用のツール<br>
+jsとrubyで提供されている</p>
+
+</section>
+<section>
+
+<h2>サンプル</h2>
+
+<pre><code class="language-ruby"># PRタイトルにWIPついてたら、コメント
+warn("PR is classed as Work in Progress") if github.pr_title.include? "[WIP]"
+
+# PRの変更行数が500以上だったら、コメント
+warn("Big PR") if git.lines_of_code &gt; 500
+
+# 普通にrubyスクリプトなので、 やりたい放題
+fail("fdescribe left in tests") if `grep -r fdescribe specs/ `.length &gt; 1
+fail("fit left in tests") if `grep -r fit specs/ `.length &gt; 1
+
+# rubocopなどよく使うやつはpluginがある
+rubocop.lint inline_comment: true
+</code></pre>
+
+</section>
+<section>
+
+<h2>メリット</h2>
+
+<ul>
+  <li>各種CIやgitのホスティングサービスをサポートしている</li>
+  <li>rubocopなどのよく使うどころはプラグインがある
+    <ul>
+      <li>プラグインの中見てもだいぶシンプルなので、カスタマイズや自作も簡単</li>
+    </ul>
+  </li>
+  <li>チーム独自のルールや簡単にかける
+    <ul>
+      <li>ruby(js)を書けばいいだけなので簡単＆やりたい放題</li>
+      <li>たとえば <code>xxx.ja.html</code> を編集したけど <code>xxx.zh-TW.html</code> を編集してなければ警告など</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h1>使い方</h1>
+
+<p>注意: ruby, Github, CircleCIでの話です。雰囲気で読み取ってください。</p>
+
+</section>
+<section>
+
+<h2>コメント</h2>
+
+<pre><code class="language-ruby"># PRにコメント
+message "foo bar"
+# markdownとしてコメント
+markdown ":alert:"
+# CI を落とす
+fail "This build didn't pass tests"
+# :alert: マークつく
+warn "Big PR"
+
+# file changedにコメントもできる
+warn("xxxxxx", file: "Dangerfile", line: 10)
+</code></pre>
+
+<p><img src="images/alert-warn.png" width="640" height="200"></p>
+
+</section>
+<section>
+
+<h2>Git, Github</h2>
+
+<pre><code class="language-ruby">git.added_files
+git.modified_files
+git.deleted_files
+git.lines_of_code
+
+# コミットメッセージ
+warn("") if git.commits.any? { |c| c.message =~ /^Merge branch 'master'/ }
+
+# diff
+diff = git.diff_for_file("Gemfile.lock")
+message("") if diff &amp;&amp; diff.patch =~ "nokogiri"
+</code></pre>
+
+<pre><code class="language-ruby">github.pr_title
+github.pr_body
+github.pr_labels
+github.branch_for_base
+# review
+github.review.start
+github.review.fail(message)
+github.review.warn(message)
+github.review.submit
+</code></pre>
+
+</section>
+<section>
+
+<h2>コードの共有</h2>
+
+<p>gemとしてpluginを追加する以外にも色んな方法で追加できる</p>
+
+<pre><code class="language-ruby"># githubのファイル直指定
+device_grid = "https://raw.githubusercontent.com/fastlane/fastlane/master/danger-device_grid/lib/device_grid/plugin.rb"
+danger.import_plugin(device_grid)
+# local file
+danger.import_plugin("danger/plugins/watch_plugin.rb")
+danger.import_plugin("danger/plugins/*.rb")
+danger.import_dangerfile(path: "path/to/Dangerfile")
+# gem
+danger.import_dangerfile(gem: "ruby-grape-danger")
+# github, gitlab
+danger.import_dangerfile(gitlab: "ruby-grape/danger")
+danger.import_dangerfile(
+  github: "ruby-grape/danger",
+  branch: "custom",
+  path: "path/to/Dangerfile"
+)
+</code></pre>
+
+</section>
+<section>
+
+<h2>導入の仕方</h2>
+
+<ul>
+  <li>
+<code>Dangerfile</code> を用意</li>
+  <li>danger gemをinstall</li>
+  <li>
+<code>DANGER_GITHUB_API_TOKEN</code> を設定</li>
+  <li>
+<code>bundle exec danger --verbose</code>とかでdangerを実行</li>
+</ul>
+
+<p>だけ！</p>
+
+</section>
+<section>
+
+<h2>ローカルでも動かせる</h2>
+
+<pre><code class="language-sh">danger pr --verbose
+</code></pre>
+
+<p>ただ、対象にするPRが、そのブランチで一番最近マージされたPRを対象にしているっぽい(たぶん)<br>
+GithubでオープンになっているPRを対象に実行したりはできなそう(未確認)</p>
+
+</section>
+<section>
+
+<h2>参考</h2>
+
+<ul>
+  <li>公式
+    <ul>
+      <li><a href="https://danger.systems">https://danger.systems</a></li>
+    </ul>
+  </li>
+  <li>試して動かしたやつ
+    <ul>
+      <li><a href="https://github.com/vividmuimui/danger-sample">https://github.com/vividmuimui/danger-sample</a></li>
+      <li><a href="https://github.com/vividmuimui/danger-sample/pull/7">https://github.com/vividmuimui/danger-sample/pull/7</a></li>
+    </ul>
+  </li>
+  <li>参考プラグイン
+    <ul>
+      <li><a href="https://github.com/ashfurrow/danger-rubocop/blob/master/lib/danger_plugin.rb">https://github.com/ashfurrow/danger-rubocop/blob/master/lib/danger_plugin.rb</a></li>
+    </ul>
+  </li>
+  <li>Github検索
+    <ul>
+      <li><a href="https://github.com/search?q=warn+filename%3ADangerfile">https://github.com/search?q=warn+filename%3ADangerfile</a></li>
+    </ul>
+  </li>
+</ul>
+
 </section>
