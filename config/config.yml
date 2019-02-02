@@ -1,0 +1,6 @@
+theme: night
+revealjs_config:
+  slideNumber: true
+  history: false
+  controls: false
+  transition: "none"
