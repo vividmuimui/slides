@@ -1,8 +1,395 @@
 <section>
 
-<h1>recent-ruby-rails</h1>
+<h1>最近(2019/02/03)のRuby,Rails,Bundler事情</h1>
 
 <p><a href="https://github.com/vividmuimui" class="user-mention">@vividmuimui</a><br>
-2019/02/03</p>
+2019/02/06 社内LT</p>
+
+</section>
+<section>
+
+<h1>
+<img class="emoji" alt=":warning:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png"> この資料は 2019-02-03 の時点での情報です！<img class="emoji" alt=":warning:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png">
+</h1>
+
+<h3>1週間も経てばまるっと内容が変わってる部分もあるかもしれないので注意してください！</h3>
+
+</section>
+<section>
+
+<h2>タイムライン</h2>
+
+<table>
+  <tbody>
+    <tr>
+      <td>2018/12/25</td>
+      <td>
+<a href="https://www.ruby-lang.org/ja/news/2018/12/25/ruby-2-6-0-released/">Ruby 2.6.0 リリース</a> <img class="emoji" alt=":tada:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png">
+</td>
+    </tr>
+    <tr>
+      <td>2019/01/18</td>
+      <td><a href="https://weblog.rubyonrails.org/2019/1/18/Rails-6-0-Action-Mailbox-Action-Text-Multiple-DBs-Parallel-Testing/">Rails 6.0.0 beta1 リリース</a></td>
+    </tr>
+    <tr>
+      <td>2019/01/30</td>
+      <td><a href="https://www.ruby-lang.org/ja/news/2019/01/30/ruby-2-6-1-released/">Ruby 2.6.1 リリース</a></td>
+    </tr>
+    <tr>
+      <td>2019/01/04</td>
+      <td>
+<a href="https://bundler.io/blog/2019/01/04/an-update-on-the-bundler-2-release.html">Bundler 2.0 リリース</a> <img class="emoji" alt=":tada:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png"> 1/3に2.0.0, 1/4に2.0.1</td>
+    </tr>
+    <tr>
+      <td>2019/02/01</td>
+      <td>Rails 6.0.0 beta2 がリリース予定。現状ではまだ</td>
+    </tr>
+    <tr>
+      <td>2019/03/01</td>
+      <td>Rails 6.0.0 rc1 リリース予定</td>
+    </tr>
+    <tr>
+      <td>2019/04/01</td>
+      <td>Rails 6.0.0 rc2 リリース予定</td>
+    </tr>
+    <tr>
+      <td>2019/04/30</td>
+      <td>Rails 6.0.0 リリース予定 <img class="emoji" alt=":tada:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png">
+</td>
+    </tr>
+    <tr>
+      <td>????</td>
+      <td>Ruby 新元号対応のリリースが平成のうちにあるらしい</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Railsのリリーススケジュールは以下の記事を元にしています。<br>
+<a href="https://weblog.rubyonrails.org/2018/12/20/timeline-for-the-release-of-Rails-6-0/">https://weblog.rubyonrails.org/2018/12/20/timeline-for-the-release-of-Rails-6-0/</a></p>
+
+</section>
+<section>
+
+<h2>Ruby 2.6.0 個人的な目玉機能</h2>
+
+<p><a href="https://www.ruby-lang.org/ja/news/2018/12/25/ruby-2-6-0-released/">https://www.ruby-lang.org/ja/news/2018/12/25/ruby-2-6-0-released/</a></p>
+
+<ul>
+  <li>
+<img class="emoji" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png"> Ruby 2.6ではJIT (Just-in-time) コンパイラが導入
+    <ul>
+      <li>有効にするには<code>--jit</code>オプション or <code>$RUBYOPT</code>環境変数</li>
+    </ul>
+  </li>
+  <li>
+<img class="emoji" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png"> Bundler を Default gems として標準添付
+    <ul>
+      <li>2.6.0 には 1.17.2 が同梱、 2.6.1 では 1.17.3</li>
+    </ul>
+  </li>
+  <li>
+<code>Kernel#yield_self</code>の別名として<code>then</code>が追加</li>
+  <li>終端なしRange</li>
+  <li>Procを関数合成するオペレータ<code>Proc#&lt;&lt;</code>、<code>Proc#&gt;&gt;</code>が追加</li>
+  <li>Kernel#system に失敗時に例外を上げさせる<code>exception:</code>オプションが追加</li>
+  <li>Coverage の oneshot_lines モードの追加</li>
+</ul>
+
+</section>
+<section>
+
+<h2>Ruby 2.6.1</h2>
+
+<p><img class="emoji" alt=":warning:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png"> Ruby 2.6.0 はいくつかバグがあるので上げるなら2.6.1!</p>
+
+<ul>
+  <li><a href="https://bugs.ruby-lang.org/issues/15472">Invalid JSON data being sent from Net::HTTP in some cases with Ruby 2.6.0</a></li>
+  <li><a href="https://github.com/ruby/csv/issues/62">CSV.generate returns unexpected encoding string</a></li>
+  <li><a href="https://bugs.ruby-lang.org/issues/15468">Net::Protocol::BufferedIO#write raises NoMethodError when sending large multi-byte string</a></li>
+</ul>
+
+<p>未だに解決してない問題</p>
+
+<ul>
+  <li>
+<a href="https://bugs.ruby-lang.org/issues/15469">Ruby2.6 included <code>bundler</code> does not handle specified <code>csv</code> gem.</a>
+    <ul>
+      <li>bundler 1.7.3を明示的に使えば直るらしい</li>
+      <li>Ruby 2.6.1 には bundler 1.7.3 が同梱されているが、それではだめらしい</li>
+      <li>bundler 2.0に上げれば直るかも？</li>
+    </ul>
+  </li>
+</ul>
+
+<p>それにしても 2.6.0 は使わず、 2.6.1 にすべき！(当たり前だけど)</p>
+
+</section>
+<section>
+
+<h2>Rails 6 注目ポイント</h2>
+
+<p><a href="https://weblog.rubyonrails.org/2019/1/18/Rails-6-0-Action-Mailbox-Action-Text-Multiple-DBs-Parallel-Testing/">Rails 6.0.0 beta1: Action Mailbox, Action Text, Multiple DBs, Parallel Testing, Webpacker by default</a></p>
+
+<ul>
+  <li>
+<img class="emoji" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png"> Action MailBox</li>
+  <li>
+<img class="emoji" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png"> Action Text</li>
+  <li>
+<img class="emoji" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png"> MultiDB support</li>
+  <li>
+<img class="emoji" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png"> parallel testing support</li>
+  <li>webpacker がデフォルトで入る</li>
+  <li>Zeitwerk: A new code loader for Ruby
+    <ul>
+      <li><a href="https://medium.com/@fxn/zeitwerk-a-new-code-loader-for-ruby-ae7895977e73">https://medium.com/@fxn/zeitwerk-a-new-code-loader-for-ruby-ae7895977e73</a></li>
+      <li><a href="https://github.com/fxn/zeitwerk">https://github.com/fxn/zeitwerk</a></li>
+      <li>Beta2 で新しいファイルのauto loaderが入るらしい</li>
+    </ul>
+  </li>
+  <li>Ruby 2.5+</li>
+</ul>
+
+</section>
+<section>
+
+<h2>Rails6: ActionText</h2>
+
+<ul>
+  <li>JSのライブラリの<a href="https://trix-editor.org/">Trix</a> を使ったWYSIWYG</li>
+  <li>画像アップロード機能もある
+    <ul>
+      <li>ActiveStorage前提</li>
+      <li>モバイルでのアップロードはUIがないので難しい</li>
+    </ul>
+  </li>
+  <li>Edgeで動かない
+    <ul>
+      <li>原因わかってない(調べてない)</li>
+    </ul>
+  </li>
+  <li>日本語入力周りは大筋動くがバグもある
+    <ul>
+      <li><a href="https://github.com/basecamp/trix/pull/580">https://github.com/basecamp/trix/pull/580</a> このPRが入ればまるっと解決するかも</li>
+      <li>(直ることを祈ってる <img class="emoji" alt=":pray:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f64f.png">)</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>Rails6: MultiDB support</h2>
+
+<ul>
+  <li>まだまだ絶賛開発中ぽい</li>
+  <li>
+<a href="https://github.com/rails/rails/pulls?utf8=%E2%9C%93&amp;q=is%3Apr+author%3Aeileencodes+label%3Aactiverecord">eileencodesさんのPR</a>を追えば理解できる(と思ってる)</li>
+  <li>最近入った目玉: <a href="https://github.com/rails/rails/pull/35073">Part 8: Multi db improvements, Adds basic automatic database switching to Rails</a>
+    <ul>
+      <li>HTTP verbs(GET or HEAD)をみて R/W splitting をする</li>
+      <li>repliation 遅延も考慮して、最後の書き込みから5s経ってたらreplicaからreadする実装も入ってる
+        <ul>
+          <li>デフォの挙動は<code>request.session</code>に<code>last_write_timestamp</code>を書き込む</li>
+        </ul>
+      </li>
+      <li>デフォルトでは無効化されてる(現状では)</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>Rails6: parallel testing support</h2>
+
+<pre><code class="language-ruby">class ActiveSupport::TestCase
+  parallelize_setup do |worker|
+    # setup databases
+  end
+   parallelize_teardown do |worker|
+    # cleanup database
+  end
+   parallelize(workers: 2)
+end
+</code></pre>
+
+<p><a href="https://github.com/rails/rails/pull/31900">https://github.com/rails/rails/pull/31900</a><br>
+実装をみればActiveRecordを使わずにDBを触ってる場合でも有効化はできそう</p>
+
+</section>
+<section>
+
+<h2>Rails6: その他</h2>
+
+<ul>
+  <li>5.2.2と6.0.0 beta1で<code>rails new</code>したときのdiff: <a href="http://railsdiff.org/5.2.2/6.0.0.beta1">http://railsdiff.org/5.2.2/6.0.0.beta1</a></li>
+  <li>
+<a href="https://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#upgrading-from-rails-5-2-to-rails-6-0">Upgrading from Rails 5.2 to Rails 6.0</a>
+    <ul>
+      <li>
+<img class="emoji" alt=":warning:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png"> 正式リリースまでは随時変わる(はず)ので注意</li>
+    </ul>
+  </li>
+  <li>
+<a href="https://edgeguides.rubyonrails.org/6_0_release_notes.html">release note</a>
+    <ul>
+      <li>正式な6.0.0用のリリースノートのページ</li>
+      <li>
+<img class="emoji" alt=":warning:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png"> 正式リリースまでは随時変わる(はず)ので注意</li>
+    </ul>
+  </li>
+</ul>
+
+<p class="center"><a href="https://weblog.rubyonrails.org/2018/12/20/timeline-for-the-release-of-Rails-6-0/">リリーススケジュール</a></p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>2019/01/18</td>
+      <td>beta1</td>
+    </tr>
+    <tr>
+      <td>2019/02/01</td>
+      <td>beta2</td>
+    </tr>
+    <tr>
+      <td>2019/03/01</td>
+      <td>rc1</td>
+    </tr>
+    <tr>
+      <td>2019/04/01</td>
+      <td>rc2</td>
+    </tr>
+    <tr>
+      <td>2019/04/30</td>
+      <td>リリース予定 <img class="emoji" alt=":tada:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png">
+</td>
+    </tr>
+  </tbody>
+</table>
+
+</section>
+<section>
+
+<h2>Bundler 2.0</h2>
+
+<ul>
+  <li>1/3に2.0.0, 1/4に2.0.1がリリース</li>
+  <li><a href="https://bundler.io/blog/2019/01/03/announcing-bundler-2.html">Announcing Bundler 2.0</a></li>
+  <li><a href="https://bundler.io/v2.0/guides/bundler_2_upgrade.html">How to Upgrade to Bundler 2</a></li>
+</ul>
+
+<pre><code class="language-sh">✘╹◡╹✘ gem install bundler
+Fetching: bundler-2.0.1.gem (100%)
+Successfully installed bundler-2.0.1
+1 gem installed
+</code></pre>
+
+<p>今普通に <code>gem install bundler</code>すると 2.0.1が入る</p>
+
+</section>
+<section>
+
+<h2>Bundler2: 注目ポイント</h2>
+
+<ul>
+  <li>
+<code>github:</code> sourceがデフォルトでhttpsになった
+    <ul>
+      <li>
+<img class="emoji" alt=":warning:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png"> 2.0.1の時点ではなってない</li>
+      <li><a href="https://github.com/jfly/bundler/commit/180794217fe74ddef568b5553a67f595a95bb03e">GitHub HTTPS is not actually enabled by default in Bundler 2?</a></li>
+    </ul>
+  </li>
+  <li>error/warningが<code>STDERR</code>に出るようになった
+    <ul>
+      <li>bundlerの出力をみて挙動を変えてる処理をライブラリなどで書いてる場合は要注意(ほぼないとは思うが)</li>
+    </ul>
+  </li>
+  <li>lockfileの中身を見て、使うbundlerの2系を使うのか1系を使うのかを自動で切り替える
+    <ul>
+      <li>
+<code>bundler -v</code>の結果が2.0.1とかでも、lockfileの中が↓なら<code>bundle install</code>などのときは自動で1系のbundlerに切り替わる</li>
+      <li>
+        <pre><code>BUNDLED WITH
+  1.17.2
+</code></pre>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>Bundler2: 注目ポイント</h2>
+
+<p>以前から噂されていた多くの大きな変更はBundler3に回されている</p>
+
+<ul>
+  <li><a href="https://github.com/bundler/bundler/commit/b61a39143e8f3bc8e71553ae85a3d56bbc554dc0">https://github.com/bundler/bundler/commit/b61a39143e8f3bc8e71553ae85a3d56bbc554dc0</a></li>
+  <li>
+<code>gems.rb</code>がデフォルトになって<code>Gemfile</code>がdeprecationになる件</li>
+  <li>引数無しで<code>bundle</code>を実行したとき、今は<code>install</code>だが<code>help</code>になる件</li>
+</ul>
+
+<p>などなどがbundler3に回されている</p>
+
+<p><code>An Update on Bundler 2.0</code><br>
+<a href="https://bundler.io/blog/2018/11/04/an-update-on-bundler-2.html">https://bundler.io/blog/2018/11/04/an-update-on-bundler-2.html</a><br>
+メジャーアップデートのルールに関して書かれてる。とても丁寧な内容のルールになった</p>
+
+<ul>
+  <li>メジャーアップデートでは即破壊的となるような変更はせず、depricationにし、その次のメジャーバージョンで取り除く</li>
+  <li>セキュリティパッチは1つ前のメジャーバージョンにも適用する</li>
+  <li>2.0のメジャーアップデートでは、破壊的変更はほぼない
+    <ul>
+      <li>3.0でいろいろ負債を解消するための布石という感じ</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>Bundler2: 既存アプリでBundler2を使う</h2>
+
+<pre><code class="language-sh">$ gem update --system
+$ gem install bundler
+$ bundle update --bundler
+</code></pre>
+
+<p>前ページの記事にあるように、2.0にあげるのは問題なく上がる</p>
+
+</section>
+<section>
+
+<h1>まとめ・所感</h1>
+
+<ul>
+  <li>ruby 2.6.0はそこそこバグがあるので使うなら2.6.1
+    <ul>
+      <li>(当たり前だけど)</li>
+      <li>bundlerが同梱されるようになってバグがまだ残ってそうで、そのバグFIXのリリースもそう遠くないうちにあるかも(?)</li>
+      <li>アプリによっては、様子見して2.5系を使っておく、という選択も全然ありかも</li>
+    </ul>
+  </li>
+  <li>Rails6はrcが出るまでは様子見で全然良さそう
+    <ul>
+      <li>普通のWebサイトを作る分には最高のメジャーアップデートになりそう</li>
+      <li>Multi DBに関しては、機能が揃ったらひと通りきちんと内容を把握してから利用したほうが良さそう
+        <ul>
+          <li>(当たり前だけど)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Bundlerはさくっと2.0にあげれる
+    <ul>
+      <li>メージャーバージョンのリリースのルールがとても丁寧な内容に決められ、噂されてた超大型アップデートな内容は3.0に回されたので。</li>
+    </ul>
+  </li>
+</ul>
 
 </section>
