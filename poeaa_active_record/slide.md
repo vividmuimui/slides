@@ -1,4 +1,3 @@
-
 ## Acitve Record
 
 PoEAA - 10. Data Source Architectual Patterns

@@ -1,6 +1,5 @@
 # Ruby会議でのBundler2の話
 
-
 @vividmuimui
 2017/10/05 社内LT
 

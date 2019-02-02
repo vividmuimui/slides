@@ -5,6 +5,7 @@
 
 ---
 
+
 {:.left}
 ## lock_diffとは :confused: :grey_question:
 
