@@ -13,18 +13,18 @@
 
 ## タイムライン
 
-| 2018/12/25 | [Ruby 2.6.0 リリース](https://www.ruby-lang.org/ja/news/2018/12/25/ruby-2-6-0-released/) :tada: |
-| 2019/01/18 | [Rails 6.0.0 beta1 リリース](https://weblog.rubyonrails.org/2019/1/18/Rails-6-0-Action-Mailbox-Action-Text-Multiple-DBs-Parallel-Testing/) |
-| 2019/01/30 | [Ruby 2.6.1 リリース](https://www.ruby-lang.org/ja/news/2019/01/30/ruby-2-6-1-released/) |
-| 2019/01/04 | [Bundler 2.0 リリース](https://bundler.io/blog/2019/01/04/an-update-on-the-bundler-2-release.html) :tada: 1/3に2.0.0, 1/4に2.0.1 |
+| 2018/12/25 | :link: [Ruby 2.6.0 リリース](https://www.ruby-lang.org/ja/news/2018/12/25/ruby-2-6-0-released/) :tada: |
+| 2019/01/04 | :link: [Bundler 2.0 リリース](https://bundler.io/blog/2019/01/04/an-update-on-the-bundler-2-release.html) :tada: 1/3に2.0.0, 1/4に2.0.1 |
+| 2019/01/18 | :link: [Rails 6.0.0 beta1 リリース](https://weblog.rubyonrails.org/2019/1/18/Rails-6-0-Action-Mailbox-Action-Text-Multiple-DBs-Parallel-Testing/) |
+| 2019/01/30 | :link: [Ruby 2.6.1 リリース](https://www.ruby-lang.org/ja/news/2019/01/30/ruby-2-6-1-released/) |
 | 2019/02/01 | Rails 6.0.0 beta2 がリリース予定。現状ではまだ |
 | 2019/03/01 | Rails 6.0.0 rc1 リリース予定 |
 | 2019/04/01 | Rails 6.0.0 rc2 リリース予定 |
 | 2019/04/30 | Rails 6.0.0 リリース予定 :tada: |
 | ???? | Ruby 新元号対応のリリースが平成のうちにあるらしい |
 
-Railsのリリーススケジュールは以下の記事を元にしています。
-https://weblog.rubyonrails.org/2018/12/20/timeline-for-the-release-of-Rails-6-0/
+Railsのリリーススケジュール
+:link: [Timeline for the release of Rails 6.0](https://weblog.rubyonrails.org/2018/12/20/timeline-for-the-release-of-Rails-6-0/)
 
 ---
 
@@ -49,13 +49,13 @@ https://www.ruby-lang.org/ja/news/2018/12/25/ruby-2-6-0-released/
 :warning: Ruby 2.6.0 はいくつかバグがあるので上げるなら2.6.1!
 
 
-- [Invalid JSON data being sent from Net::HTTP in some cases with Ruby 2.6.0](https://bugs.ruby-lang.org/issues/15472)
-- [CSV.generate returns unexpected encoding string](https://github.com/ruby/csv/issues/62)
-- [Net::Protocol::BufferedIO#write raises NoMethodError when sending large multi-byte string](https://bugs.ruby-lang.org/issues/15468)
+- :link: [Invalid JSON data being sent from Net::HTTP in some cases with Ruby 2.6.0](https://bugs.ruby-lang.org/issues/15472)
+- :link: [CSV.generate returns unexpected encoding string](https://github.com/ruby/csv/issues/62)
+- :link: [Net::Protocol::BufferedIO#write raises NoMethodError when sending large multi-byte string](https://bugs.ruby-lang.org/issues/15468)
 
 未だに解決してない問題
 
-- [Ruby2.6 included `bundler` does not handle specified `csv` gem.](https://bugs.ruby-lang.org/issues/15469)
+- :link: [Ruby2.6 included `bundler` does not handle specified `csv` gem.](https://bugs.ruby-lang.org/issues/15469)
   - bundler 1.7.3を明示的に使えば直るらしい
   - Ruby 2.6.1 には bundler 1.7.3 が同梱されているが、それではだめらしい
   - bundler 2.0に上げれば直るかも？
@@ -66,15 +66,14 @@ https://www.ruby-lang.org/ja/news/2018/12/25/ruby-2-6-0-released/
 
 ## Rails 6 注目ポイント
 
-[Rails 6.0.0 beta1: Action Mailbox, Action Text, Multiple DBs, Parallel Testing, Webpacker by default](https://weblog.rubyonrails.org/2019/1/18/Rails-6-0-Action-Mailbox-Action-Text-Multiple-DBs-Parallel-Testing/)
+:link: [Rails 6.0.0 beta1: Action Mailbox, Action Text, Multiple DBs, Parallel Testing, Webpacker by default](https://weblog.rubyonrails.org/2019/1/18/Rails-6-0-Action-Mailbox-Action-Text-Multiple-DBs-Parallel-Testing/)
 
 - :star: Action MailBox
 - :star: Action Text
 - :star: MultiDB support
 - :star: parallel testing support
 - webpacker がデフォルトで入る
-- Zeitwerk: A new code loader for Ruby
-  - https://medium.com/@fxn/zeitwerk-a-new-code-loader-for-ruby-ae7895977e73
+- :link: [Zeitwerk: A new code loader for Ruby](https://medium.com/@fxn/zeitwerk-a-new-code-loader-for-ruby-ae7895977e73)
   - https://github.com/fxn/zeitwerk
   - Beta2 で新しいファイルのauto loaderが入るらしい
 - Ruby 2.5+
@@ -83,14 +82,14 @@ https://www.ruby-lang.org/ja/news/2018/12/25/ruby-2-6-0-released/
 
 ## Rails6: ActionText
 
-- JSのライブラリの[Trix](https://trix-editor.org/) を使ったWYSIWYG
+- JSのライブラリの:link:[Trix](https://trix-editor.org/)を使ったWYSIWYG
 - 画像アップロード機能もある
   - ActiveStorage前提
   - モバイルでのアップロードはUIがないので難しい
 - Edgeで動かない
   - 原因わかってない(調べてない)
 - 日本語入力周りは大筋動くがバグもある
-  - https://github.com/basecamp/trix/pull/580 このPRが入ればまるっと解決するかも
+  - :link: [basecamp/trix#580](https://github.com/basecamp/trix/pull/580) このPRが入ればまるっと解決するかも
   - (直ることを祈ってる :pray:)
 
 ---
@@ -98,8 +97,8 @@ https://www.ruby-lang.org/ja/news/2018/12/25/ruby-2-6-0-released/
 ## Rails6: MultiDB support
 
 - まだまだ絶賛開発中ぽい
-- [eileencodesさんのPR](https://github.com/rails/rails/pulls?utf8=%E2%9C%93&q=is%3Apr+author%3Aeileencodes+label%3Aactiverecord)を追えば理解できる(と思ってる)
-- 最近入った目玉: [Part 8: Multi db improvements, Adds basic automatic database switching to Rails](https://github.com/rails/rails/pull/35073)
+- :link: [eileencodesさんのPR](https://github.com/rails/rails/pulls?utf8=%E2%9C%93&q=is%3Apr+author%3Aeileencodes+label%3Aactiverecord)を追えば理解できる(と思ってる)
+- 最近入った目玉: :link: [Part 8: Multi db improvements, Adds basic automatic database switching to Rails](https://github.com/rails/rails/pull/35073)
   - HTTP verbs(GET or HEAD)をみて R/W splitting をする
   - repliation 遅延も考慮して、最後の書き込みから5s経ってたらreplicaからreadする実装も入ってる
     - デフォの挙動は`request.session`に`last_write_timestamp`を書き込む
@@ -122,7 +121,7 @@ class ActiveSupport::TestCase
 end
 ```
 
-https://github.com/rails/rails/pull/31900
+:link: [rails/rails#31900](https://github.com/rails/rails/pull/31900)
 実装をみればActiveRecordを使わずにDBを触ってる場合でも有効化はできそう
 
 ---
@@ -130,9 +129,9 @@ https://github.com/rails/rails/pull/31900
 ## Rails6: その他
 
 - 5.2.2と6.0.0 beta1で`rails new`したときのdiff: http://railsdiff.org/5.2.2/6.0.0.beta1
-- [Upgrading from Rails 5.2 to Rails 6.0](https://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#upgrading-from-rails-5-2-to-rails-6-0)
+- :link: [Upgrading from Rails 5.2 to Rails 6.0](https://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#upgrading-from-rails-5-2-to-rails-6-0)
   - :warning: 正式リリースまでは随時変わる(はず)ので注意
-- [release note](https://edgeguides.rubyonrails.org/6_0_release_notes.html)
+- :link: [release note](https://edgeguides.rubyonrails.org/6_0_release_notes.html)
   - 正式な6.0.0用のリリースノートのページ
   - :warning: 正式リリースまでは随時変わる(はず)ので注意
 
@@ -151,11 +150,11 @@ https://github.com/rails/rails/pull/31900
 ## Bundler 2.0
 
 - 1/3に2.0.0, 1/4に2.0.1がリリース
-- [Announcing Bundler 2.0](https://bundler.io/blog/2019/01/03/announcing-bundler-2.html)
-- [How to Upgrade to Bundler 2](https://bundler.io/v2.0/guides/bundler_2_upgrade.html)
+- :link: [Announcing Bundler 2.0](https://bundler.io/blog/2019/01/03/announcing-bundler-2.html)
+- :link: [How to Upgrade to Bundler 2](https://bundler.io/v2.0/guides/bundler_2_upgrade.html)
 
 ```sh
-✘╹◡╹✘ gem install bundler
+$ gem install bundler
 Fetching: bundler-2.0.1.gem (100%)
 Successfully installed bundler-2.0.1
 1 gem installed
@@ -169,11 +168,11 @@ Successfully installed bundler-2.0.1
 
 - `github:` sourceがデフォルトでhttpsになった
   - :warning: 2.0.1の時点ではなってない
-  - [GitHub HTTPS is not actually enabled by default in Bundler 2?](https://github.com/jfly/bundler/commit/180794217fe74ddef568b5553a67f595a95bb03e)
+  - :link: [bundler/bundler#6910](https://github.com/bundler/bundler/issues/6910)
 - error/warningが`STDERR`に出るようになった
   - bundlerの出力をみて挙動を変えてる処理をライブラリなどで書いてる場合は要注意(ほぼないとは思うが)
 - lockfileの中身を見て、使うbundlerの2系を使うのか1系を使うのかを自動で切り替える
-  - `bundler -v`の結果が2.0.1とかでも、lockfileの中が↓なら`bundle install`などのときは自動で1系のbundlerに切り替わる
+  - `bundler -v`の結果が2.0.1でも、lockfileの中が↓なら`bundle install`などでは自動でbundler 1系に切り替わる
   - ```
     BUNDLED WITH
       1.17.2
@@ -185,14 +184,13 @@ Successfully installed bundler-2.0.1
 
 以前から噂されていた多くの大きな変更はBundler3に回されている
 
-  - https://github.com/bundler/bundler/commit/b61a39143e8f3bc8e71553ae85a3d56bbc554dc0
-  - `gems.rb`がデフォルトになって`Gemfile`がdeprecationになる件
-  - 引数無しで`bundle`を実行したとき、今は`install`だが`help`になる件
+- :link: [bump all bundler 2 features (except stderr) to bundler 3](https://github.com/bundler/bundler/commit/b61a39143e8f3bc8e71553ae85a3d56bbc554dc0)
+- `gems.rb`がデフォルトになって`Gemfile`がdeprecationになる件
+- 引数無しで`bundle`を実行したとき、今は`install`だが`help`になる件
 
 などなどがbundler3に回されている
 
-`An Update on Bundler 2.0`
-https://bundler.io/blog/2018/11/04/an-update-on-bundler-2.html
+:link: [An Update on Bundler 2.0](https://bundler.io/blog/2018/11/04/an-update-on-bundler-2.html)
 メジャーアップデートのルールに関して書かれてる。とても丁寧な内容のルールになった
 
 - メジャーアップデートでは即破壊的となるような変更はせず、depricationにし、その次のメジャーバージョンで取り除く
@@ -214,7 +212,7 @@ $ bundle update --bundler
 
 ---
 
-# まとめ・所感
+## まとめ・所感
 
 - ruby 2.6.0はそこそこバグがあるので使うなら2.6.1
   - (当たり前だけど)
@@ -225,4 +223,5 @@ $ bundle update --bundler
   - Multi DBに関しては、機能が揃ったらひと通りきちんと内容を把握してから利用したほうが良さそう
     - (当たり前だけど)
 - Bundlerはさくっと2.0にあげれる
-  - メージャーバージョンのリリースのルールがとても丁寧な内容に決められ、噂されてた超大型アップデートな内容は3.0に回されたので。
+  - メジャーバージョンのリリースのルールがとても丁寧な内容に決められ、噂されてた超大型アップデートな内容は3.0に回されたので
+
