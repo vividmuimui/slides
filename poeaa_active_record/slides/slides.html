@@ -52,7 +52,7 @@
 </section>
 <section>
 
-<h2>どのように動くか(How It Works) <img class="emoji" alt=":one:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0031-20e3.png">
+<h2>どのように動くか(How It Works) <img class="emoji" alt=":one:" src="https://github.githubassets.com/images/icons/emoji/unicode/0031-20e3.png">
 </h2>
 
 <ul>
@@ -70,7 +70,7 @@
 </section>
 <section>
 
-<h2>どのように動くか(How It Works) <img class="emoji" alt=":two:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0032-20e3.png">
+<h2>どのように動くか(How It Works) <img class="emoji" alt=":two:" src="https://github.githubassets.com/images/icons/emoji/unicode/0032-20e3.png">
 </h2>
 
 <p>基本的には次のようなメソッドを持つ</p>
@@ -91,7 +91,7 @@
 </section>
 <section>
 
-<h2>どのように動くか(How It Works) <img class="emoji" alt=":three:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0033-20e3.png">
+<h2>どのように動くか(How It Works) <img class="emoji" alt=":three:" src="https://github.githubassets.com/images/icons/emoji/unicode/0033-20e3.png">
 </h2>
 
 <p>このパターンは便利だが、DBが存在することを隠蔽できていない<br>
@@ -106,7 +106,7 @@ As a result you usually see fewer of the other object -relational mapping patter
 </section>
 <section>
 
-<h2>いつ使うのか(When to Use It) <img class="emoji" alt=":one:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0031-20e3.png">
+<h2>いつ使うのか(When to Use It) <img class="emoji" alt=":one:" src="https://github.githubassets.com/images/icons/emoji/unicode/0031-20e3.png">
 </h2>
 
 <p>Active Recordは単なるCRUDするだけのようなドメインロジックが複雑すぎないケースではいい選択肢になる<br>
@@ -115,7 +115,7 @@ As a result you usually see fewer of the other object -relational mapping patter
 </section>
 <section>
 
-<h2>いつ使うのか(When to Use It) <img class="emoji" alt=":two:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0032-20e3.png">
+<h2>いつ使うのか(When to Use It) <img class="emoji" alt=":two:" src="https://github.githubassets.com/images/icons/emoji/unicode/0032-20e3.png">
 </h2>
 
 <p><a href="https://www.martinfowler.com/eaaCatalog/domainModel.html">Domain Model</a>の設計時の主な選択肢として、<br>
@@ -127,7 +127,7 @@ ActiveRecordと<a href="https://www.martinfowler.com/eaaCatalog/dataMapper.html"
 </section>
 <section>
 
-<h2>いつ使うのか(When to Use It) <img class="emoji" alt=":three:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0033-20e3.png">
+<h2>いつ使うのか(When to Use It) <img class="emoji" alt=":three:" src="https://github.githubassets.com/images/icons/emoji/unicode/0033-20e3.png">
 </h2>
 
 <p>ActiveRecordの短所の１つに、オブジェクトデザインとDBデザインが密結合しているため、プロジェクトの成長に合わせてリファクタしてくのが難しいという点がある</p>
@@ -138,12 +138,12 @@ ActiveRecordと<a href="https://www.martinfowler.com/eaaCatalog/dataMapper.html"
 <h2 class="center">サンプル通りに実装してみた</h2>
 
 <p>javaのサンプルが本に載っているので、rubyで実装してみた<br>
-(DBのコネクション部分はrailsのActiveRecordに頼っちゃいました <img class="emoji" alt=":stuck_out_tongue_closed_eyes:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f61d.png">)</p>
+(DBのコネクション部分はrailsのActiveRecordに頼っちゃいました <img class="emoji" alt=":stuck_out_tongue_closed_eyes:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f61d.png">)</p>
 
 </section>
 <section>
 
-<h2>まずは準備 <img class="emoji" alt=":one:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0031-20e3.png">
+<h2>まずは準備 <img class="emoji" alt=":one:" src="https://github.githubassets.com/images/icons/emoji/unicode/0031-20e3.png">
 </h2>
 
 <pre><code class="language-ruby"># Gemfile
@@ -156,7 +156,7 @@ gem "sqlite3"
 </section>
 <section>
 
-<h2>準備 <img class="emoji" alt=":two:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0032-20e3.png">
+<h2>準備 <img class="emoji" alt=":two:" src="https://github.githubassets.com/images/icons/emoji/unicode/0032-20e3.png">
 </h2>
 
 <pre><code class="language-ruby">require "active_record"
@@ -181,7 +181,7 @@ id, lastname, firstname, number_of_dependents<br>
 </section>
 <section>
 
-<h2>準備 <img class="emoji" alt=":three:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/0033-20e3.png">
+<h2>準備 <img class="emoji" alt=":three:" src="https://github.githubassets.com/images/icons/emoji/unicode/0033-20e3.png">
 </h2>
 
 <pre><code class="language-ruby">ActiveRecord::Base.logger = Logger.new(STDOUT)
@@ -234,7 +234,7 @@ end
 =&gt; #&lt;People:0x007fa92b2adb00 @firstname="foo", @id=1, @lastname="bar", @number_of_dependents=100&gt;
 </code></pre>
 
-<p>動く <img class="emoji" alt=":smile:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png"></p>
+<p>動く <img class="emoji" alt=":smile:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png"></p>
 
 </section>
 <section>
@@ -339,7 +339,7 @@ end
 
 <h2>終わり</h2>
 
-<p>案外簡単にさくっとActiveRecordパターンを実装出来た <img class="emoji" alt=":tada:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png"><br>
+<p>案外簡単にさくっとActiveRecordパターンを実装出来た <img class="emoji" alt=":tada:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f389.png"><br>
 (クエリビルダーとかコネクション周りでrailsのActiveRecord使ったけど。。)</p>
 
 </section>
