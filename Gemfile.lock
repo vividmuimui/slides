@@ -66,7 +66,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    reveal-ck (3.9.1)
+    reveal-ck (3.9.2)
       docile (= 1.1.5)
       gemoji (= 3.0.0)
       gli (= 2.14.0)
@@ -101,6 +101,3 @@ PLATFORMS
 
 DEPENDENCIES
   reveal-ck
-
-BUNDLED WITH
-   1.16.2
