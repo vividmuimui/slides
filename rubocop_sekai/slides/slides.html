@@ -1,0 +1,409 @@
+<section>
+
+<h1>あなたの知らないRuboCopの設定</h1>
+
+<p><a href="https://github.com/vividmuimui" class="user-mention">@vividmuimui</a><br>
+2019/04/03</p>
+
+<p>社内LT</p>
+
+</section>
+<section>
+
+<h1><del>あなたの知らないRuboCopの設定</del></h1>
+
+<h1>僕の知らなかったRuboCopの設定</h1>
+
+</section>
+<section>
+
+<h2>話すこと</h2>
+
+<p>便利copとかの話ではないです。<br>
+継承(inherit)に関する3点の話です。</p>
+
+<ul>
+  <li>初級: URLでinherit</li>
+  <li>中級: inherit_mode</li>
+  <li>上級: 相対パスはどこから？</li>
+</ul>
+
+</section>
+<section>
+
+<h1 class="center">初級: URLでinherit</h1>
+
+</section>
+<section>
+
+<h2>inherit(継承)</h2>
+
+<p>RuboCop では、共通設定ファイルを利用する方法がいくつかある。</p>
+
+<ul>
+  <li>
+<code>inhert_from</code>
+    <ul>
+      <li>ローカルファイル</li>
+      <li>
+<code>.rubocop_todo.yml</code>が代表的</li>
+    </ul>
+  </li>
+  <li>
+<code>inherit_gem</code>
+    <ul>
+      <li>Gem</li>
+      <li>
+<code>onkcop</code>, <code>meowcop</code>が代表的</li>
+    </ul>
+  </li>
+</ul>
+
+<pre><code class="language-yaml">inherit_from: .rubocop_todo.yml
+
+inherit_gem:
+  onkcop:
+    - "config/rubocop.yml"
+    - "config/rails.yml"
+</code></pre>
+
+</section>
+<section>
+
+<h2>
+<code>inherit_from</code> にはURLもかける！</h2>
+
+<pre><code class="language-yml">inherit_from:
+  - http://www.example.com/rubocop.yml
+</code></pre>
+
+<p>会社共通の設定とかはGitHubにあげて<br>
+<code>https://raw.githubusercontent.com/xxx</code>を参照するのが手っ取り早そう？</p>
+
+<p>Rubyのバージョンが最新に追従できてない、とかもあると思うので、現実的にはGemで提供するのが正しそう。</p>
+
+</section>
+<section>
+
+<h1 class="center">中級: inherit_mode</h1>
+
+</section>
+<section>
+
+<h2>前提1</h2>
+
+<p>子ファイル(例: <code>.rubocop.yml</code>)で親ファイル(例: <code>.rubocop_todo.yml</code>)の設定を継承するときに、<br>
+子ファイルで親ファイルの設定を上書きできる</p>
+
+<pre><code class="language-yaml"># .rubocop_todo.yml
+Style/CollectionMethods:
+  PreferredMethods:
+    collect: map
+
+# .rubocop.yml
+inherit_from: '.rubocop_todo.yml'
+
+Style/CollectionMethods:
+  PreferredMethods:
+    collect: collect # こっちの設定が有効
+</code></pre>
+
+</section>
+<section>
+
+<h2>前提2</h2>
+
+<p>RuboCopの設定は、<code>Hash</code>と<code>Array</code>で設定される。</p>
+
+<pre><code class="language-yaml">Style/CollectionMethods:
+  # hashの例
+  PreferredMethods:
+    collect: map
+  # arrayの例
+  Exclude:
+    - 'foo/bar.rb'
+</code></pre>
+
+<p>継承したときに、</p>
+<ul>
+  <li>Hashは設定がMergeされる</li>
+  <li>Arrayは設定がOverrideされる</li>
+</ul>
+
+<p><img class="emoji" alt=":memo:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f4dd.png"> ArrayがOverrideなのは、そうじゃないと親の設定を子で無効化できないから。MergeだとYamlで空Arrayを書いても、親の設定が残ってしまう。<br>
+Hashの場合は<code>~</code>(Yamlのnull)で、親の設定をキャンセルできる。</p>
+
+</section>
+<section>
+
+<h2>inherit_mode</h2>
+
+<p>inherit_modeでArrayの継承時の挙動を変更できる。<br>
+OverrideからMergeに変更できる</p>
+
+<pre><code class="language-yaml">inherit_from:
+  - 'shared.yml'
+
+inherit_mode:
+  merge:
+    - Exclude
+
+Style/For:
+  inherit_mode:
+    override:
+      - Exclude
+</code></pre>
+
+</section>
+<section>
+
+<h1 class="center">上級: 相対パスはどこから？</h1>
+
+</section>
+<section>
+
+<h2>パスを書ける部分</h2>
+
+<ul>
+  <li>
+<code>inherit_from</code>
+    <ul>
+      <li>継承するファイル</li>
+    </ul>
+  </li>
+  <li>
+<code>Include/Exclude</code>
+    <ul>
+      <li>Copの対象とするファイル</li>
+    </ul>
+  </li>
+</ul>
+
+<pre><code class="language-yaml">inherit_from: .rubocop_todo.yml
+
+Style/CollectionMethods:
+  Exclude:
+    - 'foo/bar.rb'
+</code></pre>
+
+<p>どちらも、パスは絶対パス・相対パスどちらも書ける。<br>
+相対パスはどこからの相対なのか？</p>
+
+</section>
+<section>
+
+<h2>inherit_fromの相対パス</h2>
+
+<p><code>inherit_from</code>に書く相対パスは、<code>inherit_from</code>が書いてあるファイルからの相対パス</p>
+
+<pre><code class="language-yaml"># .rubocop.yml
+inherit_from: '../.rubocop_todo.yml'
+</code></pre>
+
+<p>こう書いた場合、<br>
+<code>.rubocop.yml</code>からみて<code>../</code>にある<code>.rubocop_todo.yml</code>を読み込む。</p>
+
+</section>
+<section>
+
+<h2 class="center">
+<code>Include/Exclude</code>の相対パス</h2>
+
+<pre><code class="language-yaml">Style/CollectionMethods:
+  Exclude:
+    - 'foo/bar.rb'
+</code></pre>
+
+</section>
+<section>
+
+<h3>これが難しい</h3>
+
+</section>
+<section>
+
+<h2>
+<code>Include/Exclude</code>の設定が書かれているファイル名によって変わる！</h2>
+
+</section>
+<section>
+
+<h2>
+<code>Include/Exclude</code>の相対パス</h2>
+
+<ul>
+  <li>
+<code>.rubocop</code>で始まる設定ファイルの場合
+    <ul>
+      <li>その設定ファイルからの相対パス</li>
+      <li>
+<code>.rubocop.yml</code> や <code>.rubocop_todo.yml</code>など</li>
+    </ul>
+  </li>
+  <li>それ以外の設定ファイルの場合
+    <ul>
+      <li>
+<code>rubocop</code>コマンドを実行したディレクトリからの相対パス</li>
+      <li>
+<code>.my_rubocop_config.yml</code> や <code>rubocop.yml</code>(ドットなし)など</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<pre><code> .
+├── config
+│   ├── .my_rubocop_config.yml
+│   ├── .rubocop_todo.yml
+│   └── .rubocop.yml
+└── src
+     └── sample.rb
+</code></pre>
+
+<pre><code class="language-yaml"># .rubocop.yml
+inherit_from:
+    - .my_rubocop_config.yml
+    - .rubocop_todo.yml
+</code></pre>
+
+<p>このような状況とします。<br>
+rubocopコマンドは、ルートディレクトリで以下のように実行するとします</p>
+
+<pre><code>$ rubocop -c config/.rubocop.yml
+</code></pre>
+
+</section>
+<section>
+
+<pre><code> .
+├── config
+│   ├── .my_rubocop_config.yml
+│   ├── .rubocop_todo.yml
+│   └── .rubocop.yml
+└── src
+     └── sample.rb
+</code></pre>
+
+<pre><code class="language-yaml"># config/.rubocop.yml
+# config/.rubocop_todo.yml
+Style/CollectionMethods:
+  Exclude:
+    # .rubocopで始まるので、設定ファイルからの相対
+    - '../src/sample.rb'
+
+# config/.my_rubocop_config.yml
+Style/CollectionMethods:
+  Exclude:
+    # .rubocopではないので、実行ディレクトリからの相対
+    - 'src/sample.rb'
+</code></pre>
+
+</section>
+<section>
+
+<p><code>.rubocop.yml</code>がリポジトリルートに置いてあるケースでは、ほぼ問題にならない。</p>
+
+<p>ただ、<code>tools/rubocop/</code>などに設定ファイル(<code>.rubocop.yml</code> など)をおいてるときには注意しなければいけない。</p>
+
+</section>
+<section>
+
+<p>例えば、以下のようなケースの場合、<code>.rubocop</code>で始めないファイル名のほうが楽。</p>
+
+<pre><code>.
+├── src
+│   └── server
+│       └── test
+│           └── foo.rb
+└── tool
+    └── rubocop
+        └── config
+            └── rubocopの設定ファイル
+</code></pre>
+
+<p>rubocopの設定ファイルがルートになく、<br>
+<code>src</code>ディレクトリでrubocopを動かすようなケース</p>
+
+<p>実行コマンドが次のようになるケース</p>
+
+<pre><code>$ rubocop -c ../tool/rubocop/config/{rubocopの設定ファイル}
+</code></pre>
+
+<p>コマンドの実行ディレクトリが設定ファイルと同じ場所の場合は話が別です。<br>
+(<code>tools/rubocop/config</code>でrubocopコマンドを動かすようなケース。そういうケースはあまりなさそうだが。。)</p>
+
+</section>
+<section>
+
+<h3 class="left">
+<code>.rubocop</code>で始めないファイル名のほうが楽な理由</h3>
+
+<p>例えば、<code>test</code>ディレクトリはまるっと無視したいCopがあったとき、</p>
+<pre><code class="language-yaml"># rubocopの設定ファイル
+Foo/BarCop:
+    Exclude:
+        - '**/test/**/*.rb'
+</code></pre>
+
+<p>というように書きたくなるが、</p>
+<ul>
+  <li>
+<code>.rubocop</code>で始まるファイルの場合
+    <ul>
+      <li>その設定ファイルからの相対パスなので、<code>**/</code>が効かない。</li>
+    </ul>
+  </li>
+  <li>
+<code>.rubocop</code>で始まらないファイルの場合
+    <ul>
+      <li>
+<code>rubocop</code>コマンドの実行ディレクトリからの相対パスなので、上記の設定で問題ない。</li>
+      <li>実行ディレクトリが、プロジェクトルートでも、srcでも、src/serverでも問題ない。</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2 class="center">まとめ</h2>
+
+</section>
+<section>
+
+<h2>まとめ</h2>
+
+<ul>
+  <li>初級: URLでinherit
+    <ul>
+      <li>
+<code>inherit_from</code>にはURLが書ける</li>
+    </ul>
+  </li>
+  <li>中級: <code>inherit_mode</code>
+    <ul>
+      <li>子ファイルで設定を上書きするとき、HashはMerge, ArrayはOverride</li>
+      <li>
+<code>inherit_mode</code>でArrayの上書き設定をMergeに変更できる</li>
+    </ul>
+  </li>
+  <li>上級: 相対パスはどこから？
+    <ul>
+      <li>
+<code>inherit_from</code>に書くパスは、<code>inherit_from</code>が書かれた設定ファイルからの相対</li>
+      <li>
+<code>Include/Exclude</code>に書くパスは
+        <ul>
+          <li>
+<code>.rubocop</code>で始まる場合は、設定ファイルからの相対</li>
+          <li>それ以外は、実行コマンドからの相対</li>
+          <li>設定ファイルを<code>tools/</code>などに置くときは、<code>.rubocop</code>で始まらないファイル名のほうが楽</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</section>
