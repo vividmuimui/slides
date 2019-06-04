@@ -3,27 +3,257 @@
 <h1>Dependabot vs BundleUpdate+LockDiff</h1>
 
 <p><a href="https://github.com/vividmuimui" class="user-mention">@vividmuimui</a><br>
-2019/06/04</p>
+2019/06/05 社内LT資料</p>
 
 </section>
 <section>
 
 <h1>話すこと</h1>
 
-<p>最近導入されたDependabotの使用感と、<br>
-これまで使っていたBundleUpdate+LockDiffを比較</p>
+<p>最近導入された <code>Dependabot</code> と、<br>
+これまで使っていた <code>BundleUpdate+LockDiff</code> を比較</p>
 
 </section>
 <section>
 
 <h1>ざっくり用語</h1>
 
+</section>
+<section>
+
+<h2>Dependabot</h2>
+
 <ul>
-  <li>Dependabot
+  <li><a href="https://dependabot.com/">https://dependabot.com/</a></li>
+  <li>ライブラリのUpdate自動で行ってPullReqestを上げてくれるサービス</li>
+  <li>最近、privateリポでも完全に無料で使えるようになった</li>
+</ul>
+
+</section>
+<section>
+
+<h2>BundleUpdate+LockDiff</h2>
+
+<ul>
+  <li>CircleCIでBundleUpdate(rubyでのライブラリの更新)をしてPullReqestを作れるツール</li>
+  <li>正確には <code>circleci-bundle-update-pr-with-lock-diff</code>
     <ul>
-      <li><a href="https://dependabot.com/">https://dependabot.com/</a></li>
+      <li>この資料では長いので <code>BundleUpdate+LockDiff</code>と書きます</li>
+      <li>
+<a href="https://github.com/vividmuimui/circleci-runner/tree/master/circleci-bundle-update-pr-with-lock-diff">vividmuimui/circleci-runner</a>
+        <ul>
+          <li>以下の合わせ技+forkしたもの</li>
+          <li>
+<a href="https://github.com/yhirano55/circleci-runner">yhirano55/circleci-runner</a>
+            <ul>
+              <li><a href="https://github.com/masutaka/circleci-bundle-update-pr">masutaka/circleci-bundle-update-pr</a></li>
+            </ul>
+          </li>
+          <li><a href="https://github.com/vividmuimui/lock_diff">vividmuimui/lock_diff</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>社内の色んな所で使われている</li>
+</ul>
+
+</section>
+<section>
+
+<h2>ざっくり用語まとめ</h2>
+
+<p>Dependabot, BundleUpdate+LockDiff どちらも、ライブラリの更新をしてPullReqestを上げてくれる。<br>
+Dependabotはサービスなのでとても高機能。<br>
+BundleUpdate+LockDiff は長いこと社内で便利に使ってきたやつ。</p>
+
+</section>
+<section>
+
+<h1>簡単な機能比較</h1>
+
+</section>
+<section>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Dependabot</th>
+      <th>BundleUpdate+LockDiff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PR</td>
+      <td>ライブラリごとに1PR</td>
+      <td>1つのPRで一括で更新</td>
+    </tr>
+    <tr>
+      <td>言語</td>
+      <td>Ruby,JSなどたくさん</td>
+      <td>Rubyだけ</td>
+    </tr>
+    <tr>
+      <td>ChangeLog</td>
+      <td><img class="emoji" alt=":o:" src="https://github.githubassets.com/images/icons/emoji/unicode/2b55.png"></td>
+      <td><img class="emoji" alt=":o:" src="https://github.githubassets.com/images/icons/emoji/unicode/2b55.png"></td>
+    </tr>
+    <tr>
+      <td>Commits</td>
+      <td><img class="emoji" alt=":o:" src="https://github.githubassets.com/images/icons/emoji/unicode/2b55.png"></td>
+      <td><img class="emoji" alt=":o:" src="https://github.githubassets.com/images/icons/emoji/unicode/2b55.png"></td>
+    </tr>
+    <tr>
+      <td>rubygems へのリンク</td>
+      <td><img class="emoji" alt=":x:" src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png"></td>
+      <td><img class="emoji" alt=":o:" src="https://github.githubassets.com/images/icons/emoji/unicode/2b55.png"></td>
+    </tr>
+    <tr>
+      <td>Vulnerabilities</td>
+      <td><img class="emoji" alt=":o:" src="https://github.githubassets.com/images/icons/emoji/unicode/2b55.png"></td>
+      <td><img class="emoji" alt=":x:" src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png"></td>
+    </tr>
+    <tr>
+      <td>高機能感</td>
+      <td><img class="emoji" alt=":o:" src="https://github.githubassets.com/images/icons/emoji/unicode/2b55.png"></td>
+      <td><img class="emoji" alt=":x:" src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png"></td>
+    </tr>
+    <tr>
+      <td>組み込みやすさ</td>
+      <td><img class="emoji" alt=":o:" src="https://github.githubassets.com/images/icons/emoji/unicode/2b55.png"></td>
+      <td><img class="emoji" alt=":o:" src="https://github.githubassets.com/images/icons/emoji/unicode/2b55.png"></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>参考PR</p>
+<ul>
+  <li>Dependabot: <a href="https://github.com/vividmuimui/rails_tutorial/pull/44">vividmuimui/rails_tutorial#44</a>
+</li>
+  <li>BundleUpdate+LockDiff: <a href="https://github.com/vividmuimui/lock_diff_sample/pull/15">vividmuimui/lock_diff_sample#15</a>
+</li>
+</ul>
+
+</section>
+<section>
+
+<h1>Dependabot</h1>
+
+<ul>
+  <li>ライブラリごとにPRがあがる</li>
+  <li>対応言語が多い
+    <ul>
+      <li><a href="https://dependabot.com/#languages">https://dependabot.com/#languages</a></li>
+    </ul>
+  </li>
+  <li>脆弱性対応の更新なのかわかる</li>
+  <li>Compatibilityが見れる</li>
+  <li>botが優秀
+    <ul>
+      <li>必要なくなったら自動で閉じたり、コンフリクトしてたら自動でrebaseしてくれたりする。</li>
+    </ul>
+  </li>
+  <li>カスタマイズできる
+    <ul>
+      <li><a href="https://dependabot.com/docs/config-file/">https://dependabot.com/docs/config-file/</a></li>
+    </ul>
+  </li>
+  <li>全体通して圧倒的に高機能</li>
+  <li>PRがたくさん上がってマージしていくので、CIのキューが詰まりがち</li>
+</ul>
+
+</section>
+<section>
+
+<h2>BundleUpdate+LockDiff</h2>
+
+<ul>
+  <li>CircleCIに簡単に組み込める</li>
+  <li>RubyのBundle updateだけできる</li>
+  <li>Bundle Updateしてるだけなので、1PRで一括で更新が入る</li>
+  <li>LockDiffもそれなりに便利
+    <ul>
+      <li>Tachikoma + LockDiff といった感じで組み合わせれば、CircleCi以外でも簡単に動く</li>
+    </ul>
+  </li>
+  <li>普段自分たちが使うコマンドでupdateされるので、理解しやすい
+    <ul>
+      <li>基本的には<code>bundle update</code>してPR作ってるだけなので。</li>
+    </ul>
+  </li>
+  <li>Dependabotに比べると機能が少ない
+    <ul>
+      <li>個人のOSS開発なので</li>
     </ul>
   </li>
 </ul>
+
+</section>
+<section>
+
+<h1>どっちが良いか・どう使い分けるか</h1>
+
+</section>
+<section>
+
+<h2>どっちが良いか・どう使い分けるか</h2>
+
+<p>現状両方使っている。チームの中で、それが良さそうとなった。</p>
+
+<p>まだ、Dependabotを導入して1週間も立ってないが、<br>
+DependabotはDaily, BundleUpdate+LockDiffはWeeklyで動かしているのが良いリズムっぽい。</p>
+
+<p>ちなみに、yarn(JS)に関してもDependabotだけでなく以下を併用してWeeklyで更新されるようにしている</p>
+
+<ul>
+  <li>
+<a href="https://github.com/vividmuimui/circleci-runner/tree/master/ci-yarn-upgrade">vividmuimui/circleci-runner</a>
+    <ul>
+      <li><a href="https://github.com/yhirano55/circleci-runner">yhirano55/circleci-runner</a></li>
+      <li><a href="https://github.com/taichi/ci-yarn-upgrade">taichi/ci-yarn-upgrade</a></li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>良いリズム</h2>
+
+<ul>
+  <li>基本的には Dependabotが上げてくるPRを毎日消化していく
+    <ul>
+      <li>dailyで動かしても、多くても1日2,3PR程度しか上がらない</li>
+    </ul>
+  </li>
+  <li>溜まってしまったら、 BundleUpdate+LockDiff で一括マージする
+    <ul>
+      <li>DependabotのPRはbotが自動で閉じてくれる</li>
+    </ul>
+  </li>
+  <li>Security update(脆弱性対応)は特に高速にマージする</li>
+</ul>
+
+</section>
+<section>
+
+<h2>終わり</h2>
+
+<p><code>Dependabot</code>, <code>BundleUpdate+LockDiff</code> どっちも便利なので両方使っていく。</p>
+
+<p>チーム・リポジトリによっては、</p>
+<ul>
+  <li>Dependabotのsecurity updateだけにする</li>
+  <li>
+<code>BundleUpdate+LockDiff</code>だけにする</li>
+</ul>
+
+<p>というのも全然アリ。</p>
+
+</section>
+<section>
+
+<p>ぜひ便利なので、 <code>Dependabot</code>, <code>BundleUpdate+LockDiff</code> 使ってみてください！。<br>
+導入の仕方とか使用感とかに感して、質問・相談あれば遠慮なくしてください。</p>
 
 </section>
