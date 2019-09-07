@@ -1,0 +1,65 @@
+/*********************************************
+ * Custom css
+ *********************************************/
+.reveal .slides {
+  font-size: 0.7em;
+}
+
+.reveal .slides img.emoji {
+  width: 1em;
+}
+
+.reveal .slides pre {
+  font-size: 1.0em;
+}
+
+.reveal .slides h1 {
+  font-size: 2.8em;
+}
+
+.reveal .slides h1,
+.reveal .slides h2 {
+  text-align: left;
+}
+
+.reveal .slides p {
+  text-align: left;
+}
+
+.reveal .slides ul {
+  display: block;
+  margin-left: 2em;
+}
+
+.reveal .slides ul li {
+  text-align: left;
+}
+
+.reveal .slides table th {
+  border-right: 1px solid;
+}
+.reveal .slides table td {
+  border-right: 1px solid;
+}
+
+.reveal .slides table td:last-child {
+  border-right: none;
+}
+.reveal .slides table th:last-child {
+  border-right: none;
+}
+
+.reveal .slides .left {
+  text-align: left;
+}
+
+.reveal .slides .center {
+  text-align: center;
+}
+
+.reveal .slides code {
+  background: #3f3f3f;
+  padding: 0px 4px;
+  margin: 0 2px;
+  border-radius: 4px;
+}
