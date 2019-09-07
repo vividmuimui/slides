@@ -3,6 +3,177 @@
 <h1>bundle-update</h1>
 
 <p><a href="https://github.com/vividmuimui" class="user-mention">@vividmuimui</a><br>
-2019/09/07</p>
+2019/09/10</p>
+
+<p>LT 資料</p>
+
+</section>
+<section>
+
+<h1>定期 bundle update</h1>
+
+<ul>
+  <li>tachikoma
+    <ul>
+      <li><a href="https://rubygems.org/gems/tachikoma">https://rubygems.org/gems/tachikoma</a></li>
+    </ul>
+  </li>
+  <li>circleci-bundle-update-pr
+    <ul>
+      <li><a href="https://github.com/masutaka/circleci-bundle-update-pr">https://github.com/masutaka/circleci-bundle-update-pr</a></li>
+    </ul>
+  </li>
+  <li>Dependabot
+    <ul>
+      <li><a href="https://dependabot.com">https://dependabot.com</a></li>
+    </ul>
+  </li>
+  <li>Renovate
+    <ul>
+      <li><a href="https://renovatebot.com">https://renovatebot.com</a></li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h1>🤔 💬</h1>
+
+<ul>
+  <li>Dependabot や Renovate が使える環境なら基本的にもうそれで良さそう
+    <ul>
+      <li>Dependabot は GitHub では private リポも無料で使えるようになったし</li>
+    </ul>
+  </li>
+  <li>tachikoma, circleci-bundle-update-pr は、とても便利だけど Changelog へのリンクがなくて大変</li>
+</ul>
+
+</section>
+<section>
+
+<h3>tachikoma, circleci-bundle-update-pr Changelog へのリンクがなくて大変</h3>
+
+<p><br></p>
+<h4>こう思ったことないでしょうか？</h4>
+
+</section>
+<section>
+
+<h3>そこで lock_diff</h3>
+
+</section>
+<section>
+
+<h4>GitHub <a href="https://github.com/vividmuimui/lock_diff">vividmuimui/lock_diff</a>
+</h4>
+
+<h4><a href="https://rubygems.org/gems/lock_diff">https://rubygems.org/gems/lock_diff</a></h4>
+
+</section>
+<section>
+
+<h2>lock_diff</h2>
+
+<p>PRのFiles changedにあるGemfile.lockの変更の差分を見て、<br>
+CHANGELOG系ファイルへのリンクをPRにコメントするgem<br>
+tachikoma や circleci-bundle-update-pr などが作ったPRを対象にして実行される想定</p>
+
+<p><a href="https://github.com/vividmuimui/lock_diff_sample/pull/9#issuecomment-315140796">https://github.com/vividmuimui/lock_diff_sample/pull/9#issuecomment-315140796</a><br>
+<img src="images/sample.png" width="640px"></p>
+
+</section>
+<section>
+
+<h2>lock_diff</h2>
+
+<p>changelog といっても、リポジトリによって様々な場所に書かれてる</p>
+
+<ul>
+  <li>CHANGELOG.md</li>
+  <li>RELESE_NOTE.txt</li>
+  <li>history.md</li>
+  <li>GitHub の機能の release</li>
+  <li>etc</li>
+</ul>
+
+<p>lock_diff はそれらをよしなに探すようになってる</p>
+
+<p>コード:  <a href="https://github.com/vividmuimui/lock_diff/blob/032b7270f36915b3da327bbb87c1b185b4338652/lib/lock_diff/github/changelog_url_finder.rb">vividmuimui/lock_diff の changelog_url_finder.rb</a></p>
+
+</section>
+<section>
+
+<h2>実行の仕方</h2>
+
+<p>実行に必要なのは 3つ</p>
+
+<ul>
+  <li><code>GITHUB_ACCESS_TOKEN</code></li>
+  <li>リポジトリ名
+    <ul>
+      <li><code>vividmuimui/rails_tutorial</code></li>
+    </ul>
+  </li>
+  <li>PR 番号 (省略できる)
+    <ul>
+      <li>基本的には特定のPRに対して実行するのでPR番号が必要</li>
+      <li>でも、最新の bundle update の PR を特定して実行する方法もあるので、省略できる
+        <ul>
+          <li>tachikoma, circleci-bundle-update-pr はPR作るときのブランチ名が特徴的なので、それで特定している</li>
+          <li>(ブランチ名が変わると ❌)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<pre><code class="language-shell">$ lock_diff \
+    -r "vividmuimui/lock_diff_sample" \
+    -n 9 \
+    --post-comment=false
+
+# 最新のPRを特定して実行する場合( `_for_tachikoma` なのは最初 tachikoma しか想定してなかったから)
+$ lock_diff_for_tachikoma \
+    -r "vividmuimui/lock_diff_sample" \
+    --post-comment=false
+</code></pre>
+
+</section>
+<section>
+
+<h2>実行の仕方</h2>
+
+<p>circleci で circleci-bundle-update-pr でセットで動かす用の コンテナが用意されてる</p>
+
+<p><a href="https://github.com/vividmuimui/circleci-runner/tree/master/circleci-bundle-update-pr-with-lock-diff">circleci-bundle-update-pr-with-lock-diff</a></p>
+
+</section>
+<section>
+
+<h3>ぜひ使ってみてください！</h3>
+
+<p><br><br>
+Dependabot で daily でアップデート、<br>
+<code>circleci-bundle-update-pr-with-lock-diff</code> で weekly で一括アップデート、<br>
+という感じで併用するのも案外良いですよ。</p>
+
+<p>参考: Dependabot vs BundleUpdate+LockDiff<br>
+<a href="https://vividmuimui.github.io/slides/dependabot_vs_lockdiff/slides/">https://vividmuimui.github.io/slides/dependabot_vs_lockdiff/slides/</a></p>
+
+</section>
+<section>
+
+<h2>おわりに</h2>
+
+<ul>
+  <li>ずっと前に書いて、その時のニーズをある程度実装できたので、全然メンテしてない</li>
+  <li>(コードも汚い)</li>
+  <li>もっと便利にできたらいいなーとは思ってます(思ってる)
+    <ul>
+      <li><a href="https://github.com/vividmuimui/lock_diff/issues">https://github.com/vividmuimui/lock_diff/issues</a></li>
+    </ul>
+  </li>
+</ul>
 
 </section>
