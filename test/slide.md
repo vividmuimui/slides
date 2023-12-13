@@ -6,7 +6,7 @@
 foo
 
 {:.center .fragment}
-[@vivid_muimui](https://twitter.com/vivid_muimui)
+[@vividmuimui](https://twitter.com/vividmuimui)
 
 ---
 

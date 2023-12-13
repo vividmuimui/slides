@@ -39,7 +39,7 @@ $ bundle add rspec
 ```ruby
 # Gemfile
 
-# Added at 2017-10-04 00:17:42 +0900 by vivid_muimui:
+# Added at 2017-10-04 00:17:42 +0900 by vividmuimui:
 gem "rspec", "~> 3.6"
 ```
 
