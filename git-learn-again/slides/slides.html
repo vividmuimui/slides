@@ -1,88 +1,108 @@
 <section>
+  <h1>tigとかaliasなし生活を送ってみて改めてgitを覚えてる話</h1>
 
-<h1>tigとかaliasなし生活を送ってみて改めてgitを覚えてる話</h1>
-
-<p><a href="https://github.com/vividmuimui" class="user-mention">@vividmuimui</a><br>
-2018/08/01 社内LT</p>
-
+  <p>
+    <a href="https://github.com/vividmuimui" class="user-mention"
+      >@vividmuimui</a
+    ><br />
+    2018/08/01 社内LT
+  </p>
 </section>
 <section>
+  <h3>はじめに</h3>
 
-<h3>はじめに</h3>
+  <p>
+    ここ2,3週間ぐらい、Git/Githubの研修資料を作るために、tigやgit
+    aliasを封印してみてます。<br />
+    その中で今まで知らなかったこと、見たことはあるけど忘れていたものとかを発表するLTです。
+  </p>
 
-<p>ここ2,3週間ぐらい、Git/Githubの研修資料を作るために、tigやgit aliasを封印してみてます。<br>
-その中で今まで知らなかったこと、見たことはあるけど忘れていたものとかを発表するLTです。</p>
-
-<p>tigについては <a href="https://qiita.com/vivid_muimui/items/7e7a740e6537749de0c0">https://qiita.com/vivid_muimui/items/7e7a740e6537749de0c0</a></p>
-
+  <p>
+    tigについては
+    <a href="https://qiita.com/vividmuimui/items/7e7a740e6537749de0c0"
+      >https://qiita.com/vividmuimui/items/7e7a740e6537749de0c0</a
+    >
+  </p>
 </section>
 <section>
+  <h3>🔰 注意</h3>
 
-<h3>🔰 注意</h3>
+  <p>難しい話とかトリッキーな話とかではないです。基本的な話しかないです！</p>
 
-<p>難しい話とかトリッキーな話とかではないです。基本的な話しかないです！</p>
-
-<p>人によっては当たり前のこと多いかと思いますが！<br>
-優しい目で見てください！</p>
-
+  <p>
+    人によっては当たり前のこと多いかと思いますが！<br />
+    優しい目で見てください！
+  </p>
 </section>
 <section>
+  <h3>目次</h3>
 
-<h3>目次</h3>
-
-<ul>
-  <li>add -u</li>
-  <li>reset –mixed, –soft, –hard</li>
-  <li>show HEAD~^2~~^~^2</li>
-  <li>HEAD, @</li>
-  <li>–staged is a synonym of –cached</li>
-  <li>diff topic..master/topic…master</li>
-</ul>
-
+  <ul>
+    <li>add -u</li>
+    <li>reset –mixed, –soft, –hard</li>
+    <li>show HEAD~^2~~^~^2</li>
+    <li>HEAD, @</li>
+    <li>–staged is a synonym of –cached</li>
+    <li>diff topic..master/topic…master</li>
+  </ul>
 </section>
 <section>
+  <h3>add -u</h3>
 
-<h3>add -u</h3>
+  <p>
+    <a href="https://git-scm.com/docs/git-add"
+      >https://git-scm.com/docs/git-add</a
+    >
+  </p>
 
-<p><a href="https://git-scm.com/docs/git-add">https://git-scm.com/docs/git-add</a></p>
-
-<pre><code>-u, --update          update tracked files
+  <pre><code>-u, --update          update tracked files
 </code></pre>
 
-<p>対象となるファイルは <code>commit -a</code>と一緒です。<br>
-<code>commit -a</code>や<code>add .</code>しか知らなかったので地味に便利かなと思っています。<br>
-<code>commit -am</code>は少し躊躇するし、<code>rebase</code>や<code>merge</code>などでコンフリクトしてコンフリクト解消したときとかにも便利そう(予感)</p>
-
+  <p>
+    対象となるファイルは <code>commit -a</code>と一緒です。<br />
+    <code>commit -a</code>や<code>add .</code
+    >しか知らなかったので地味に便利かなと思っています。<br />
+    <code>commit -am</code
+    >は少し躊躇するし、<code>rebase</code>や<code>merge</code>などでコンフリクトしてコンフリクト解消したときとかにも便利そう(予感)
+  </p>
 </section>
 <section>
+  <h3>reset –mixed, –soft, –hard</h3>
 
-<h3>reset –mixed, –soft, –hard</h3>
+  <p>
+    <a href="https://git-scm.com/docs/git-reset"
+      >https://git-scm.com/docs/git-reset</a
+    >
+  </p>
 
-<p><a href="https://git-scm.com/docs/git-reset">https://git-scm.com/docs/git-reset</a></p>
-
-<p>今回改めて覚えるまで、<br>
-デフォルトのオプションがどれかもよくわかってなかったし、<code>--hard</code>しか普段使ってなかったので、<br>
-<code>--mixed</code>と<code>--soft</code>の違いもよくわかったなかったでした。</p>
-
+  <p>
+    今回改めて覚えるまで、<br />
+    デフォルトのオプションがどれかもよくわかってなかったし、<code>--hard</code>しか普段使ってなかったので、<br />
+    <code>--mixed</code
+    >と<code>--soft</code>の違いもよくわかったなかったでした。
+  </p>
 </section>
 <section>
+  <h3>reset –mixed, –soft, –hard</h3>
 
-<h3>reset –mixed, –soft, –hard</h3>
-
-<ul>
-  <li>デフォルトは <code>--mixed</code> と <code>--soft</code>どちらかわかりますか？</li>
-  <li>
-<code>--mixed</code>と<code>--soft</code>の違いを理解できますか？</li>
-</ul>
-
+  <ul>
+    <li>
+      デフォルトは <code>--mixed</code> と
+      <code>--soft</code>どちらかわかりますか？
+    </li>
+    <li><code>--mixed</code>と<code>--soft</code>の違いを理解できますか？</li>
+  </ul>
 </section>
 <section>
+  <h3>reset –mixed, –soft, –hard</h3>
 
-<h3>reset –mixed, –soft, –hard</h3>
+  <p>
+    <a href="http://d.hatena.ne.jp/murank/20110327/1301224770"
+      >http://d.hatena.ne.jp/murank/20110327/1301224770</a
+    >
+  </p>
 
-<p><a href="http://d.hatena.ne.jp/murank/20110327/1301224770">http://d.hatena.ne.jp/murank/20110327/1301224770</a></p>
-
-<pre><code>--soft、--mixed(オプションなしと同等)、--hard オプションがあり、
+  <pre><code>--soft、--mixed(オプションなしと同等)、--hard オプションがあり、
 影響度の小さい順に以下のようになる。
 
 --soft
@@ -93,160 +113,192 @@
   HEADの位置、インデックス、ワーキングツリーをすべて変更する。
 </code></pre>
 
-<p>詳しくは <a href="http://d.hatena.ne.jp/murank/20110327/1301224770">http://d.hatena.ne.jp/murank/20110327/1301224770</a> この記事を!</p>
-
+  <p>
+    詳しくは
+    <a href="http://d.hatena.ne.jp/murank/20110327/1301224770"
+      >http://d.hatena.ne.jp/murank/20110327/1301224770</a
+    >
+    この記事を!
+  </p>
 </section>
 <section>
+  <h3>show HEAD<code>~^2~~^~^2</code></h3>
 
-<h3>show HEAD<code>~^2~~^~^2</code>
-</h3>
-
-<pre><code>~ (チルダ)
+  <pre><code>~ (チルダ)
 ~世代前のコミットを指定できる。
 ^ (キャレット)
 複数ある親コミットのなかから指定できる
 </code></pre>
 
-<p><a href="https://qiita.com/chihiro/items/d551c14cb9764454e0b9">https://qiita.com/chihiro/items/d551c14cb9764454e0b9</a></p>
-
+  <p>
+    <a href="https://qiita.com/chihiro/items/d551c14cb9764454e0b9"
+      >https://qiita.com/chihiro/items/d551c14cb9764454e0b9</a
+    >
+  </p>
 </section>
 <section>
+  <h3>show HEAD<code>~^2~~^~^2</code></h3>
 
-<h3>show HEAD<code>~^2~~^~^2</code>
-</h3>
-
-<pre><code>~ (チルダ)
+  <pre><code>~ (チルダ)
 ~世代前のコミットを指定できる。
 </code></pre>
 
-<p><img src="images/head1.jpeg" width="640" height="360"></p>
+  <p><img src="images/head1.jpeg" width="640" height="360" /></p>
 
-<p><a href="https://qiita.com/chihiro/items/d551c14cb9764454e0b9">https://qiita.com/chihiro/items/d551c14cb9764454e0b9</a></p>
-
+  <p>
+    <a href="https://qiita.com/chihiro/items/d551c14cb9764454e0b9"
+      >https://qiita.com/chihiro/items/d551c14cb9764454e0b9</a
+    >
+  </p>
 </section>
 <section>
+  <h3>show HEAD<code>~^2~~^~^2</code></h3>
 
-<h3>show HEAD<code>~^2~~^~^2</code>
-</h3>
-
-<pre><code>^ (キャレット)
+  <pre><code>^ (キャレット)
 複数ある親コミットのなかから指定できる
 </code></pre>
 
-<p><img src="images/head2.jpeg" width="640" height="360"></p>
+  <p><img src="images/head2.jpeg" width="640" height="360" /></p>
 
-<p><a href="https://qiita.com/chihiro/items/d551c14cb9764454e0b9">https://qiita.com/chihiro/items/d551c14cb9764454e0b9</a></p>
-
+  <p>
+    <a href="https://qiita.com/chihiro/items/d551c14cb9764454e0b9"
+      >https://qiita.com/chihiro/items/d551c14cb9764454e0b9</a
+    >
+  </p>
 </section>
 <section>
+  <h3>show HEAD<code>~^2~~^~^2</code></h3>
 
-<h3>show HEAD<code>~^2~~^~^2</code>
-</h3>
+  <p><img src="images/head3.jpeg" width="640" height="360" /></p>
 
-<p><img src="images/head3.jpeg" width="640" height="360"></p>
-
-<p><a href="https://qiita.com/chihiro/items/d551c14cb9764454e0b9">https://qiita.com/chihiro/items/d551c14cb9764454e0b9</a></p>
-
+  <p>
+    <a href="https://qiita.com/chihiro/items/d551c14cb9764454e0b9"
+      >https://qiita.com/chihiro/items/d551c14cb9764454e0b9</a
+    >
+  </p>
 </section>
 <section>
+  <h3>HEAD, @</h3>
 
-<h3>HEAD, @</h3>
+  <blockquote>
+    <p>
+      gitのv1.8.5からは、大文字「HEAD」の4文字を打たなくて済むよう「＠」というエイリアスが用意された
+    </p>
+  </blockquote>
 
-<blockquote>
-  <p>gitのv1.8.5からは、大文字「HEAD」の4文字を打たなくて済むよう「＠」というエイリアスが用意された</p>
-</blockquote>
+  <p>
+    <a href="http://tech.aainc.co.jp/archives/6740"
+      >http://tech.aainc.co.jp/archives/6740</a
+    >
+  </p>
 
-<p><a href="http://tech.aainc.co.jp/archives/6740">http://tech.aainc.co.jp/archives/6740</a></p>
+  <blockquote>
+    <ul>
+      <li>
+        Instead of typing four capital letters “HEAD”, you can say “@” now,<br />
+        e.g. “git log @”.
+      </li>
+    </ul>
+  </blockquote>
 
-<blockquote>
-  <ul>
-    <li>Instead of typing four capital letters “HEAD”, you can say “@” now,<br>
-e.g. “git log @”.</li>
-  </ul>
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/git/git/master/Documentation/RelNotes/1.8.5.txt">https://raw.githubusercontent.com/git/git/master/Documentation/RelNotes/1.8.5.txt</a><br>
-(ちなみに、1.8.5は2013年年末ごろにリリースされてます。)</p>
-
+  <p>
+    <a
+      href="https://raw.githubusercontent.com/git/git/master/Documentation/RelNotes/1.8.5.txt"
+      >https://raw.githubusercontent.com/git/git/master/Documentation/RelNotes/1.8.5.txt</a
+    ><br />
+    (ちなみに、1.8.5は2013年年末ごろにリリースされてます。)
+  </p>
 </section>
 <section>
+  <h3>HEAD, @</h3>
 
-<h3>HEAD, @</h3>
-
-<p><code>git rb -i @~2</code>とか書くことができて便利 😇<br>
-(rb = rebase)</p>
-
+  <p>
+    <code>git rb -i @~2</code>とか書くことができて便利 😇<br />
+    (rb = rebase)
+  </p>
 </section>
 <section>
+  <h3>–staged is a synonym of –cached</h3>
 
-<h3>–staged is a synonym of –cached</h3>
+  <p>
+    <a href="https://git-scm.com/docs/git-diff"
+      >https://git-scm.com/docs/git-diff</a
+    >
+  </p>
 
-<p><a href="https://git-scm.com/docs/git-diff">https://git-scm.com/docs/git-diff</a></p>
-
-<pre><code>git diff --cached
+  <pre><code>git diff --cached
 git diff --staged
 </code></pre>
 
-<p><code>--cached</code>よりも<code>--staged</code>のほうが絶対理解しやすいはず。<br>
-(なんでcachedという名前なのか、は理解してないです 🤐 )</p>
-
+  <p>
+    <code>--cached</code
+    >よりも<code>--staged</code>のほうが絶対理解しやすいはず。<br />
+    (なんでcachedという名前なのか、は理解してないです 🤐 )
+  </p>
 </section>
 <section>
+  <h3>diff topic..master/topic…master</h3>
 
-<h3>diff topic..master/topic…master</h3>
-
-<pre><code>git diff topic master
+  <pre><code>git diff topic master
 git diff topic..master
 git diff topic...master
 </code></pre>
 
-<p>ちがいわかりますか？</p>
-
+  <p>ちがいわかりますか？</p>
 </section>
 <section>
+  <h3>diff topic..master/topic…master</h3>
 
-<h3>diff topic..master/topic…master</h3>
+  <p><img src="images/git-diff-help.png" /></p>
 
-<p><img src="images/git-diff-help.png"></p>
-
-<p><a href="https://yakst.com/ja/posts/4116">https://yakst.com/ja/posts/4116</a></p>
-
+  <p>
+    <a href="https://yakst.com/ja/posts/4116"
+      >https://yakst.com/ja/posts/4116</a
+    >
+  </p>
 </section>
 <section>
-
-<pre><code>git diff foo..bar は git diff foo bar と完全に同じです。
+  <pre><code>git diff foo..bar は git diff foo bar と完全に同じです。
 どちらも2つのブランチ foo と bar の最新の変更同士の違いを表示します。
 一方で、git diff foo...bar は、
 2つのブランチの「マージベース」と bar の最新の変更との違いを表示します。
 「マージベース」とは通常、2つのブランチ間で共通な最後のコミットのことです
 </code></pre>
 
-<p><img src="images/git-diff-help.png"></p>
+  <p><img src="images/git-diff-help.png" /></p>
 
-<p><a href="https://yakst.com/ja/posts/4116">https://yakst.com/ja/posts/4116</a></p>
-
+  <p>
+    <a href="https://yakst.com/ja/posts/4116"
+      >https://yakst.com/ja/posts/4116</a
+    >
+  </p>
 </section>
 <section>
+  <h3>diff topic..master/topic…master</h3>
 
-<h3>diff topic..master/topic…master</h3>
+  <p>githubのPRをだすときのURLが</p>
 
-<p>githubのPRをだすときのURLが</p>
-
-<pre><code>https://github.com/foo/bar/compare/branchA...branchB
+  <pre><code>https://github.com/foo/bar/compare/branchA...branchB
 </code></pre>
 
-<p>のように <code>branchA...branchB</code> であることがこれで納得いきますね 💡</p>
-
+  <p>
+    のように <code>branchA...branchB</code> であることがこれで納得いきますね 💡
+  </p>
 </section>
 <section>
+  <h3>終わり</h3>
 
-<h3>終わり</h3>
+  <p>
+    tigや各種エディタ拡張とかとても便利だし、普段の開発ではaliasやpeco(history)で特定のコマンドしか使うことないと思います。
+  </p>
 
-<p>tigや各種エディタ拡張とかとても便利だし、普段の開発ではaliasやpeco(history)で特定のコマンドしか使うことないと思います。</p>
+  <p>
+    素のgitを触ることあまりないとは思いますが、<br />
+    たまーに素のgitを触ってみると新しい発見があるかもしれません！
+  </p>
 
-<p>素のgitを触ることあまりないとは思いますが、<br>
-たまーに素のgitを触ってみると新しい発見があるかもしれません！</p>
-
-<p>(<a href="https://git-scm.com/docs">Reference manual</a>読んだほうが早くね！とかそういう系の正論は 🤐 )</p>
-
+  <p>
+    (<a href="https://git-scm.com/docs">Reference manual</a
+    >読んだほうが早くね！とかそういう系の正論は 🤐 )
+  </p>
 </section>
