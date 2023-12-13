@@ -11,3 +11,11 @@ $ bin/serve <slide name>
 
 - open `<slide-url>?print-pdf/`
 - ref. https://github.com/jedcn/reveal-ck-example/blob/master/basic-slides/README.md
+
+# How to write slide
+
+- Write slides in `<slide name>/slide.md`.
+- Writing reference [test/slide.md](test/slide.md)
+- customize
+    - `<slide name>/config.yml`.
+    - customize `<slide name>/css/custom.css`(test/slide.md)
