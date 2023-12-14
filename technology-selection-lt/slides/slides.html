@@ -3,6 +3,311 @@
 <h1>あるチームでの技術選定で考えてること(外部向けに修正版)</h1>
 
 <p><a href="https://github.com/vividmuimui" class="user-mention">@vividmuimui</a><br>
-2023/12/14</p>
+2023/12/22 社内エンジニア忘年会LT</p>
+
+</section>
+<section>
+
+<h2>前提 &amp; 目的</h2>
+
+<p>前提</p>
+<ul>
+  <li>まだ検討中で変更はあるかも</li>
+</ul>
+
+<p>目的</p>
+<ul>
+  <li>もしみなさんが知らないGemがあったりして、所属チームに活かせるものがあれば嬉しい。</li>
+  <li>「そのGemよりこっちがいいよ」とかあれば教えていただけると嬉しい</li>
+</ul>
+
+</section>
+<section>
+
+<h2>TL;DR</h2>
+
+<p>Evil Martians(TechRacho翻訳)の以下の記事をほとんど参考にしてる</p>
+<ul>
+  <li><a href="https://techracho.bpsinc.jp/hachi8833/2023_02_16/126782">Rails: Evil Martiansが使って選び抜いた夢のgem（翻訳）</a></li>
+  <li><a href="https://techracho.bpsinc.jp/hachi8833/2022_11_25/123684">実践ViewComponent（1）: 現代的なRailsフロントエンド構築の心得（翻訳)</a></li>
+  <li><a href="https://techracho.bpsinc.jp/hachi8833/2022_11_28/124509">実践ViewComponent（2）: コンポーネントを徹底的に強化する（翻訳)</a></li>
+</ul>
+
+<p>その他の参考情報</p>
+<ul>
+  <li><a href="https://www.ruby-toolbox.com/">https://www.ruby-toolbox.com/</a></li>
+  <li><a href="https://awesome-ruby.com/">https://awesome-ruby.com/</a></li>
+  <li>社内のGemfile</li>
+  <li>などなど</li>
+</ul>
+
+</section>
+<section>
+
+<h2>Rails new</h2>
+
+<ul>
+  <li>importmap ではなく jsbundling-rails &amp; esbuild
+    <ul>
+      <li>importmap 関連のエコシステムが整うにはもう少し時間がかかりそう
+        <ul>
+          <li>たとえば dependabot が importmap-railsのフォーマットに<a href="https://github.com/dependabot/dependabot-core/issues/6675">対応してない</a>
+</li>
+        </ul>
+      </li>
+      <li>package.json をそのまま扱ってpackageを管理できる方が今は嬉しい気がする</li>
+    </ul>
+  </li>
+  <li>sprockets ではなく propshaft
+    <ul>
+      <li>propshaft はまだベータ扱いだがいまから作るもので導入するならまぁ問題ないのではと思ってる。</li>
+      <li>また、今後 rails のデフォルトが sprockets から propshaft に変わる可能性があるので。</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>認証・認可</h2>
+
+<p>認証</p>
+<ul>
+  <li>devise, sorcery, rodash 悩ましい <img class="emoji" alt=":thinking:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f914.png">
+    <ul>
+      <li><a href="https://speakerdeck.com/sylph01/build-and-learn-rails-authentication">https://speakerdeck.com/sylph01/build-and-learn-rails-authentication</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>認可</p>
+<ul>
+  <li>action_policy が良さそう
+    <ul>
+      <li>参考: <a href="https://techracho.bpsinc.jp/hachi8833/2023_02_16/126782">Rails: Evil Martiansが使って選び抜いた夢のgem（翻訳）</a>
+</li>
+      <li>pundit, bankenの仕組みが良いと思っている。</li>
+      <li>「Punditの強化版です。パフォーマンスや開発エクスペリエンスを重視する優れた機能を提供します。」とのこと</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>config</h2>
+
+<ul>
+  <li>anyway_config が良さそう
+    <ul>
+      <li>参考: <a href="https://techracho.bpsinc.jp/hachi8833/2020_06_03/91468">Rails: anyway_config gemでRubyの設定を正しく整理しよう（翻訳）</a>
+</li>
+      <li>環境変数、yaml, Rails Credentials を扱える</li>
+      <li>rubyファイルでメソッドも生やせる</li>
+      <li>
+<code>FooConfig.to_source_trace</code> で値の読み込み元を確認できる</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>breadcreams, pagination</h2>
+
+<p>breadcreams</p>
+<ul>
+  <li>gretel が良さそうかなぁと思っているが、おすすめがあれば教えてください
+    <ul>
+      <li>以前使って体験良かったのと、 config/breadcreams.yml に書くので管理しやすい</li>
+    </ul>
+  </li>
+</ul>
+
+<p>pagination</p>
+<ul>
+  <li>pagy を試して見て問題なければこれにする
+    <ul>
+      <li><a href="https://techracho.bpsinc.jp/hachi8833/2021_07_13/57481">https://techracho.bpsinc.jp/hachi8833/2021_07_13/57481</a></li>
+      <li>でかいテーブルをさばこうとしたときのパフォーマンスが良い</li>
+      <li>この情報2021年なので、kaminari とか will_pagenate の方がいいとか改善されてるとかの情報あれば教えてください！</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>その他</h2>
+
+<ul>
+  <li>検索: ransack</li>
+  <li>protection: rack-protection</li>
+  <li>feature flag: flipper or feature_toggles <img class="emoji" alt=":thinking:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f914.png">
+</li>
+  <li>画像管理: active_storage or shrine <img class="emoji" alt=":thinking:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f914.png">
+</li>
+  <li>seed: seed-fu (これしかない？) <img class="emoji" alt=":thinking:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f914.png">
+</li>
+  <li>test関連
+    <ul>
+      <li>rspec, factory-bot, faker</li>
+      <li>
+<img class="emoji" alt=":star:" src="https://github.githubassets.com/images/icons/emoji/unicode/2b50.png"> Zonebie(Timezoneをランダムにする)</li>
+    </ul>
+  </li>
+  <li>log系: lograge, audited, rack-user_agent</li>
+  <li>CI系: danger, review-dog, brakeman</li>
+  <li>database関連
+    <ul>
+      <li>補助: annotate, bullet</li>
+      <li>
+<img class="emoji" alt=":star:" src="https://github.githubassets.com/images/icons/emoji/unicode/2b50.png"> 変なSQL投げないように: database_consitency, isolator, strong_migrations</li>
+      <li>
+<img class="emoji" alt=":star:" src="https://github.githubassets.com/images/icons/emoji/unicode/2b50.png"> データメンテ: maintenance_tasks</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h1>ここからがメイン</h1>
+
+</section>
+<section>
+
+<h2>モジュラモノリス</h2>
+
+<ul>
+  <li>packwerk
+    <ul>
+      <li>packwerk は Shopify 製のモジュラモノリスのための仕組み。境界違反の検知とかもできて高機能。</li>
+    </ul>
+  </li>
+</ul>
+
+<p>1つのプロダクトの中に複数のシステムがあるので、モジュラモノリスとして扱えるのが良い気がしている。<br>
+だが、本当に必要かは検討が必要で悩ましい。本当に必要になるまでは単にnamespaceとかrails engineでもいいのかも。</p>
+
+</section>
+<section>
+
+<p>チームやサービスの状況によって違うが、以下のように思っている</p>
+
+<ul>
+  <li>マルチリポよりモノリポの方がいい
+    <ul>
+      <li>マイクロサービスでない限り、モノリポのほうが便利</li>
+      <li>マイクロサービスでないなら、チームは完全に独立して動かないし別システムでもないので1つのシステムで扱っておいたほうが便利なことが多いと思う。</li>
+      <li>モノリポの不便さは概ね頑張って解決できるはず。</li>
+    </ul>
+  </li>
+  <li>マイクロサービスよりはモノリスの方がいい
+    <ul>
+      <li>チームやサービスが完全に分断しない限りモノリスがいい。よくいわれるやつ。</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>コンポーネント開発1</h2>
+
+<ul>
+  <li>view_component
+    <ul>
+      <li>GitHub 製の ruby/rails でのコンポーネント開発のためのもの</li>
+    </ul>
+  </li>
+  <li>lookbook
+    <ul>
+      <li>view_component のライブラリ群の1つで、 storybook のようにコンポーネント単独で描画・確認できるもの</li>
+      <li>erbなども描画できるが<a href="https://github.com/ViewComponent/lookbook/issues/560">バグ</a>がある</li>
+    </ul>
+  </li>
+</ul>
+
+<p>react/storybook/css in js(CSS modules)などのようにコンポーネント開発を取り入れたい。<br>
+コンポーネントごと描画しテストできることで、テストが書きやすい。動作確認もしやすい。Visual Regression Testもこれに乗っかってできるなら便利そう。</p>
+
+<p>参考: <a href="https://techracho.bpsinc.jp/hachi8833/2022_11_25/123684">実践ViewComponent（1）</a></p>
+
+</section>
+<section>
+
+<h2>コンポーネント開発2</h2>
+
+<pre><code class="language-ruby">components/
+  example/
+    component.html.erb # 通常のviewファイル
+    component.rb # Example::Componentクラス(view component)
+    preview.rb # Example::Previewクラス(lookbook)
+    styles.css # CSSスタイル
+    whatever.png # その他のアセット
+    controller.js # Stimulusのコントローラ
+</code></pre>
+
+<ul>
+  <li>コンポーネント(viewファイル)と同階層でcss, jsを扱えるようにする</li>
+  <li>CSS は、CSS modulesのようなスコープ化の仕組みも入れる</li>
+</ul>
+
+<p>こうすることで開発体験がぐっと良くなるはず。<br>
+参考: <a href="https://techracho.bpsinc.jp/hachi8833/2022_11_28/124509">実践ViewComponent（2）</a></p>
+
+</section>
+<section>
+
+<h2>CSS <img class="emoji" alt=":thinking:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f914.png">
+</h2>
+
+<p>① 自前である程度 CSS 書くパターン</p>
+
+<ul>
+  <li>tailwind
+    <ul>
+      <li>デザイントークン周りやpadding/margin/font-sizeなどぐらいに使う。スタイリングはCSSを普通に書く。</li>
+    </ul>
+  </li>
+  <li>flowbite ( + flowbite-admin )
+    <ul>
+      <li>tailwind つかった(?) headless UI ライブラリ
+        <ul>
+          <li>react/vueではないので選択肢はそこまで多くない</li>
+        </ul>
+      </li>
+      <li>data属性で対象指定するのでわかりやすい</li>
+    </ul>
+  </li>
+</ul>
+
+<p>② tailwind 全乗っかり<br>
+③ bootstrap 全乗っかり</p>
+
+</section>
+<section>
+
+<h2>admin framework <img class="emoji" alt=":thinking:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f914.png">
+</h2>
+
+<ul>
+  <li>scaffoldを自前で用意して、素朴にview, controller 書くほうが良さそうに感じている</li>
+  <li>active_admin や rails_admin はDSL強いのでカスタマイズしにくい</li>
+  <li>administrate はカスタマイズできると言っているが、全部上書きできるわけではない
+    <ul>
+      <li>たとえば、ページネーションとかカスタマイズできない。(できるけど、自前で書くのと何も変わらなくなってくる)</li>
+      <li>補足: administrate の propshaft 等の対応の<a href="https://github.com/thoughtbot/administrate/issues/2311">PR</a>が絶賛開発されてる</li>
+    </ul>
+  </li>
+</ul>
+
+<p>それなりに複雑な画面もある想定なのでカスタマイズしやすさは担保しておけると良さそうと思っている</p>
+
+</section>
+<section>
+
+<h1>おわり</h1>
 
 </section>
