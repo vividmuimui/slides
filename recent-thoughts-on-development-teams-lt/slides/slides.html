@@ -6,3 +6,422 @@
 2025/06/01</p>
 
 </section>
+<section>
+
+<h2>このスライドはなにか</h2>
+
+<ul>
+  <li>社内LT発表用のものです</li>
+  <li>「こんなエンジニア組織にしたい」「こんなことを考えている」というテーマで書いたものです</li>
+  <li>網羅性や粒度はおいて、LTらしくザーッと書き出したものです</li>
+  <li>AIに関する話はないです</li>
+</ul>
+
+</section>
+<section>
+
+<h2>目指すエンジニア組織</h2>
+
+<p>『プロダクトの成長をリードする開発組織』<br>
+・ エンジニアとして、ただコードを書くのではなく、プロダクトの成長を技術で引っ張っていく<br>
+・ そのために、ユーザーの課題に向き合い、スピードと品質のバランスを取りながら、拡張性のある設計を追求する<br>
+・ 短期的な開発効率だけでなく、内部品質の向上や、持続的な成長を見据えたものづくりを大切にする<br>
+・ 変化を楽しみ、プロダクトをもっとよくするために主体的に動く</p>
+
+</section>
+<section>
+
+<h2>チーム編成</h2>
+
+<ul>
+  <li>専門性で分離することは基本想定していない
+    <ul>
+      <li>たとえば、「フロントエンド」「バックエンド」「インフラ」</li>
+      <li>チームとしても、専任としてもわけない</li>
+    </ul>
+  </li>
+  <li>1つの機能を作るときに一人のエンジニアが基本は全部作る</li>
+  <li>もちろん得意不得意はあって良い</li>
+</ul>
+
+</section>
+<section>
+
+<h2>技術選定/アーキテクチャの戦略</h2>
+
+<ul>
+  <li>組織/プロダクトにおいて必要 &gt; メンテできるか &gt; 使いたい
+    <ul>
+      <li>「〇〇言語流行ってるからやりましょう」「イケてる組織はマイクロサービスだからウチもマイクロサービスにしましょう」みたいな選択をすることはない</li>
+      <li>メンテできるかはとても重要
+        <ul>
+          <li>導入することもコストかかるが、それを運用していくのが最もコストが掛かる。</li>
+          <li>逆に、導入コストや撤廃のコスト・影響範囲が小さいのであればガシガシ試したら良い</li>
+        </ul>
+      </li>
+      <li>生産性や保守性・採用力などに寄与するか</li>
+      <li>チームの技術力や人数・組織構造などにマッチするか</li>
+    </ul>
+  </li>
+  <li>レガシーなものを使い続けることもない。必要に応じてちゃんとモダンに合わせていく</li>
+</ul>
+
+</section>
+<section>
+
+<h2>モノリス／モジュラーモノリス／マイクロサービス</h2>
+
+<ul>
+  <li>コンウェイの法則・逆コンウェイの法則</li>
+  <li>1,2チームで分割する程度の規模であれば、モノリス・モジュラモノリスで十分</li>
+  <li>事業ニーズ・人の拡大がなければマイクロサービスにすることはない</li>
+  <li>一番避けたいのは、負債化するマイクロサービス
+    <ul>
+      <li>マイクロサービス風の分散システム</li>
+      <li>組織構造が設計されていないマイクロサービス</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>viva ベンダーロックイン</h2>
+
+<ul>
+  <li>人が少ない中でそこまで気にしてられない。将来考える</li>
+  <li>サーバーレスに寄せれるならそのほうが良いと思っている</li>
+  <li>Observabilityとかもモノリス前提なのであまり気にしない
+    <ul>
+      <li>クラウドやDatadogでよしなにやってくれる部分も多いので、まずは最低限それに乗っかる程度</li>
+    </ul>
+  </li>
+</ul>
+
+<p>※ ここはプロダクト・チームの現況に合わせた判断が強いです</p>
+
+</section>
+<section>
+
+<h2>監視系</h2>
+
+<ul>
+  <li>インフラ監視はDatadog</li>
+  <li>エラー監視はSentry/Rollbar</li>
+  <li>オンコールとかは今はそこまでの規模ではないので考えない
+    <ul>
+      <li>基本みんな対応すべき</li>
+      <li>「自分が書いたコードじゃないのでわからないで、自分は対応しません」はNG</li>
+    </ul>
+  </li>
+</ul>
+
+<p>※ ここはプロダクト・チームの現況に合わせた判断が強いです</p>
+
+</section>
+<section>
+
+<hr>
+<h2>データ分析/解約/ログ</h2>
+
+<ul>
+  <li>これはちゃんと設計する必要がある
+    <ul>
+      <li>失ったデータは戻せないので。</li>
+    </ul>
+  </li>
+  <li>顧客情報・個人情報は解約でちゃんと消さないといけない</li>
+  <li>でも、データ分析として必要な情報は残しておく必要がある</li>
+  <li>DWHはBigQueryにしたい。Google Spreadsheet/Lookerとも連携できるので。</li>
+</ul>
+
+</section>
+<section>
+
+<h2>BIツール</h2>
+
+<ul>
+  <li>redash/metabaseと、looker/aws quicksightなどを用途によって使い分けれると良い気がしている</li>
+  <li>エンジニアが調査する用、KPI確認のダッシュボード用など</li>
+  <li>もっと言えば、リアルタイムのデータを見たいものと、過去の分も含めて長期間みたいもの・いろんなデータ突合させてみたいもの</li>
+</ul>
+
+</section>
+<section>
+
+<h2>テスト</h2>
+
+<ul>
+  <li>基本はテスティングピラミッドに。シンプルなモノリスシステムなので。</li>
+  <li>ただ、今はE2E/VRTを充実させる。
+    <ul>
+      <li>自動テストがない＆フロントエンドのライブラリやCSSもガッツリリファクタリングしたいという状態なので。</li>
+    </ul>
+  </li>
+  <li>将来的にもVRTはあったほうが良いと思っている
+    <ul>
+      <li>Vibe Codingにも役立つはず</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>テストの書き方</h2>
+
+<ul>
+  <li>世の中に良い資料あるので読んで。本もたくさん出てる。
+    <ul>
+      <li>
+<code>Rails Developers Meetup 2019で、再び綺麗なテストコードの書き方について発表した</code>
+        <ul>
+          <li><a href="https://blog.willnet.in/entry/2019/03/27/092642">https://blog.willnet.in/entry/2019/03/27/092642</a></li>
+        </ul>
+      </li>
+      <li>
+<code>リーダブルテストコード / #vstat</code>
+        <ul>
+          <li><a href="https://speakerdeck.com/jnchito/number-vstat">https://speakerdeck.com/jnchito/number-vstat</a></li>
+        </ul>
+      </li>
+      <li>
+<code>テストコードにはテストの意図を込めよう(2025年版) #retechtalk</code>
+        <ul>
+          <li><a href="https://speakerdeck.com/nihonbuson/put-the-intent-of-the-test-2025">https://speakerdeck.com/nihonbuson/put-the-intent-of-the-test-2025</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>テストの書き方2</h2>
+
+<ul>
+  <li>書くよりも読む時間のほうが長いので、基本DRYにしない
+    <ul>
+      <li>でも、そのテストファイル内でメソッドを作るのは普通にやったら良いので積極的にやるべき</li>
+      <li>そのテストで必要な条件やパラメータは、そのテスト内で明示的に過不足なく書くのが大事
+        <ul>
+          <li>ある1つのテストを変更するために修正したときに、他のテストに影響がないように。</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>外部サービス以外は基本モックしない。DBもちゃんとローカルに用意する
+    <ul>
+      <li>
+<code>Googleのソフトウェアエンジニアリング</code>
+        <ul>
+          <li><a href="https://www.oreilly.co.jp/books/9784873119656/">https://www.oreilly.co.jp/books/9784873119656/</a></li>
+          <li>「分離より現実に即することを優先せよ」</li>
+          <li>「我々が現実的なテストを優先するのは、テスト対象システムが正常に動作しているという点での信頼をより多くもたらすのが、現実的なテストだからである。」</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>コードレビュー</h2>
+
+<ul>
+  <li>
+<code>伝わるコードレビュー</code> という本とてもおすすめ
+    <ul>
+      <li><a href="https://www.shoeisha.co.jp/book/detail/9784798186009">https://www.shoeisha.co.jp/book/detail/9784798186009</a></li>
+    </ul>
+  </li>
+  <li>
+<code>Google's Engineering Practices documentation</code> もおすすめ
+    <ul>
+      <li><a href="https://google.github.io/eng-practices/">https://google.github.io/eng-practices/</a></li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>コミットの粒度/メッセージ/PRタイトル</h2>
+
+<ul>
+  <li>
+<code>10年後、プログラムを動かし続けるために。伊藤淳一が考える「良いコミット、悪いコミット」</code>
+    <ul>
+      <li><a href="https://levtech.jp/media/article/column/detail_586/">https://levtech.jp/media/article/column/detail_586/</a></li>
+    </ul>
+  </li>
+  <li>
+<code>よいコミットメッセージ・よくないコミットメッセージ</code>
+    <ul>
+      <li><a href="https://tech-blog.yayoi-kk.co.jp/entry/2017/03/13/132014">https://tech-blog.yayoi-kk.co.jp/entry/2017/03/13/132014</a></li>
+    </ul>
+  </li>
+  <li>
+<code>Gitのコミットメッセージの書き方</code>
+    <ul>
+      <li><a href="https://postd.cc/how-to-write-a-git-commit-message/">https://postd.cc/how-to-write-a-git-commit-message/</a></li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>ライブラリ更新</h2>
+
+<ul>
+  <li>常に更新する。毎週の頻度で当番制でやる</li>
+  <li>小さくマージしてったほうが確認が楽</li>
+  <li>DependabotやRenovateを使う</li>
+</ul>
+
+</section>
+<section>
+
+<h2>ドキュメント</h2>
+
+<ul>
+  <li>書かないもの
+    <ul>
+      <li>詳細設計書・DB定義書・テスト仕様書など、コードと重複するもの</li>
+      <li>最新性が保てないもの</li>
+    </ul>
+  </li>
+  <li>書くもの
+    <ul>
+      <li>意思決定の履歴。ADRなど</li>
+      <li>非エンジニアとも共有すべき要件や業務フロー</li>
+      <li>システム全体像や構成（概要図・構成図）</li>
+    </ul>
+  </li>
+  <li>原則
+    <ul>
+      <li>コードが正</li>
+      <li>必要があればコードから自動生成する</li>
+      <li>ドキュメントを書くこと自体が目的にならないようにする</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>文化</h2>
+
+<ul>
+  <li>朝会よりも夕会が良い。人が増えたら両方
+    <ul>
+      <li>朝会だと「昨日の続きで〇〇やります。」で終わってしまうことが多い。もしくは、10分以上の朝会をやりがちになる</li>
+      <li>夕会であれば「今日〇〇やったけどうまくいかなかった」という課題が出てくるので、翌日に回さず問題を発見解決しやすい</li>
+    </ul>
+  </li>
+  <li>振り返りを定期的にやろう
+    <ul>
+      <li>「チームをより良くするためには・生産性を上げるには」というような目的はちゃんとはっきりさせてやろう</li>
+    </ul>
+  </li>
+  <li>月1改善Day
+    <ul>
+      <li>普段だとどうしても後回しになりがちな、でも時間があったらやりたいやつを自由にやる。開発環境改善・生産性向上・DX向上につながる作業を集中してやる日</li>
+    </ul>
+  </li>
+  <li>PR共有回
+    <ul>
+      <li>チームの知識の共有</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>そのた色々</h2>
+
+<ul>
+  <li>ボーイスカウトは当然やろう</li>
+  <li>12FactorAppとかDevOpsのfour keysとかの文脈のは取り入れていこう。基礎として大事なプラクティスが多い</li>
+  <li>何事にもわかりやすい正解というのはないので、意志と意図を持って判断する</li>
+  <li>リリース後のことをちゃんと考えよう。とくに設計・レビューのタイミング。抜けがちなので。
+    <ul>
+      <li>監査</li>
+      <li>問い合わせ調査</li>
+      <li>KPIのための集計・データ分析</li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>そのた色々2</h2>
+
+<ul>
+  <li>DB・URLの設計は最初に共有・レビューしよう</li>
+  <li>機械ができることは機械にやってもらう
+    <ul>
+      <li>CI/CD当然やろう</li>
+      <li>CI例
+        <ul>
+          <li>自動テスト以外にも色々やろう</li>
+          <li>linter/formatter, 脆弱性解析, typo, detect secret など</li>
+          <li>reviewdog, danger</li>
+          <li>AIレビュー</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>好きな資料/本</h2>
+
+<ul>
+  <li>とても好きな資料: <code>20140131 万葉帰社日発表 チーム積み重ね</code>
+    <ul>
+      <li><a href="https://www.slideshare.net/tatsuosakurai/20140131-accumulation-ofteam">https://www.slideshare.net/tatsuosakurai/20140131-accumulation-ofteam</a></li>
+    </ul>
+  </li>
+  <li>好きな本: <code>Team Geek</code>
+    <ul>
+      <li><a href="https://www.oreilly.co.jp/books/9784873116303/">https://www.oreilly.co.jp/books/9784873116303/</a></li>
+    </ul>
+  </li>
+  <li>好きな本: <code>仕事は楽しいかね？</code>
+    <ul>
+      <li><a href="https://eijipress.co.jp/products/2351">https://eijipress.co.jp/products/2351</a></li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h2>さいごに</h2>
+
+<ul>
+  <li>あくまで2025/06時点での考えてることの一部です</li>
+  <li>網羅はしていないし、考えが変わることもあります</li>
+  <li>状況やチームによって柔軟に変えるものだとも思っています</li>
+</ul>
+
+</section>
+<section>
+
+<h2>再掲: 目指すエンジニア組織</h2>
+
+<p>『プロダクトの成長をリードする開発組織』<br>
+・ エンジニアとして、ただコードを書くのではなく、プロダクトの成長を技術で引っ張っていく<br>
+・ そのために、ユーザーの課題に向き合い、スピードと品質のバランスを取りながら、拡張性のある設計を追求する<br>
+・ 短期的な開発効率だけでなく、内部品質の向上や、持続的な成長を見据えたものづくりを大切にする<br>
+・ 変化を楽しみ、プロダクトをもっとよくするために主体的に動く</p>
+
+</section>
