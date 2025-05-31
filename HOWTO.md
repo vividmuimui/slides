@@ -1,7 +1,7 @@
 # How to add new slide
 
 ```sh
-$ bin/setup <slide name>
+$ bin/setup <slide name> <slide title>
 $ bin/serve <slide name>
 # edit <slide name>/slides.md
 # open http://localhost:10000
